@@ -58,11 +58,9 @@ public class AnalyseLexicale {
                     tokens.add(new Token(TypeDeToken.parentheseDroite));
                 } else if (e == 104) {
                     tokens.add(new Token(TypeDeToken.intVal, buf));
+                    retourArriere();
                 } else if (e == 105) {
                     tokens.add(new Token(TypeDeToken.stringVal, buf));
-                    retourArriere();
-                } else if (e == 106) {
-                    tokens.add(new Token(TypeDeToken.intVal, buf));
                     retourArriere();
                 }
                 // un état d'acceptation ayant été atteint, retourne à l'état 0
