@@ -24,7 +24,8 @@ public class Token {
 
 	public String toString() {
 		String res = typeDeToken.toString();
-		if (valeur != null) res = res + "(" + valeur + ")";
+		if (valeur != null) res = res + "(" + valeur + ") ";
+		else res += " ";
 		return res;
 	}
 
