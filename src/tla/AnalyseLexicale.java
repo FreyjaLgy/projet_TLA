@@ -11,7 +11,7 @@ public class AnalyseLexicale {
             //Là où il y a un null c'est que je sais pas encore quoi mettre
             //           0    1    2       3            4
             //           *    -    )    chiffre  lettre+caractères
-            /*  0 */   {  2, 102, 103,   1,   2},
+            /*  0 */   {101, 102, 103,   1,   2},
             /*  1 */   {104, 104, 104,   1, 104},
             /*  2 */   {105,   2,   2,   2,   2}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
 
