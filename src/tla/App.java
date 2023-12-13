@@ -20,6 +20,10 @@ import java.awt.event.ActionListener;
 import java.util.*;
 
 /*
+ * Membres du groupe :
+ *  GODIVEAU Andréa
+ *  LEGUAY Emerance
+ *
  * Classe principale.
  * 
  * Gère l'IHM.
