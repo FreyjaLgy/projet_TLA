@@ -20,7 +20,7 @@ public class AnalyseSyntaxique {
 	
 	public Token lireToken() {
 		Token t = tokens.get(pos);
-		//System.out.println(t);
+		System.out.println(t);
 		pos += 1;
 		return t;
 	}
@@ -35,14 +35,14 @@ public class AnalyseSyntaxique {
 	A' => Proposition | S | E*/
 
 	
-	public void S() {
-		Lieu();		
+	public Lieu S() {
+		return Lieu();
 	}
 	
-	public void Lieu() {
+	public Lieu Lieu() {
 		//production Lieu => intVal-*stringVal*Proposition
 		
-		
+		Lieu lieu = null;
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
@@ -59,72 +59,91 @@ public class AnalyseSyntaxique {
 						String description = lireToken().getValeur();
 						
 						if (getTypeDeToken() == TypeDeToken.delimiteur) {
-							lireToken();
-							listePropositions = Proposition();
-							System.out.println(listePropositions.size());
-
-							System.out.println("Description = " + description);
+							//System.out.println("Description lieu = " + description);
 							
-							Lieu lieu = new Lieu(description, listePropositions);						
+							lireToken();
+							listePropositions = Num();
+							
+							for (Proposition propo : listePropositions) {
+							    System.out.println("action propo = " + propo.texte + " ; numero lieu = " + propo.numeroLieu); 
+							}
+							
+							System.out.println("Nb propo (lieu) = " + listePropositions.size());
+							
+							lieu = new Lieu(description, listePropositions);						
 						}
 					}
 				}
 			}
 		}
+		
+		return lieu;
 	}
 	
-	public List<Proposition> Proposition() {
+	public List<Proposition> Num() {
 		//production Lieu => intVal-*stringVal*Proposition
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
 			lireToken();
+			
+			TypeDeToken typeToken = getTypeDeToken();
 
-			if (getTypeDeToken() == TypeDeToken.parentheseDroite) {
+			while (typeToken == TypeDeToken.parentheseDroite) {
+				//System.out.println(typeToken);
+				//System.out.println("entree");
+				
 				lireToken();
 				
-				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					lireToken();
+				String actionProposition = Proposition();
+				Proposition proposition = new Proposition(actionProposition, 1);
+				listePropositions.add(proposition);
 				
-					if (getTypeDeToken() == TypeDeToken.stringVal) {
-						String actionProposition = lireToken().getValeur();
-						
-						Proposition proposition = new Proposition(actionProposition, 1);
-						listePropositions.add(proposition);
-					
-						if (getTypeDeToken() == TypeDeToken.delimiteur) {
-							lireToken();
-							actionProposition = A();
-							listePropositions.add(proposition);
+				//System.out.println("Nb propo = " + listePropositions.size());
+				
+				//Proposition();
+				
+				
+				typeToken = A();
+				
+				
+				
 							
-							return listePropositions;
-						}
-					}
-				}
 			}
 		} 
+		return listePropositions;
+		//return null;
+	}
+	
+	
+	public String Proposition() {
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			lireToken();
+			System.out.println("ce delimiteur");
+		
+			if (getTypeDeToken() == TypeDeToken.stringVal) {
+				String actionProposition = lireToken().getValeur();
+				
+				//System.out.println("Action = " + actionProposition);
+				
+				return actionProposition;
+			}
+		}
 		return null;
 	}
 	
-	public String A() {
+	
+	public TypeDeToken A() {
 		//production A' => Proposition | S | E
-		if (getTypeDeToken() == TypeDeToken.intVal) {
-			pos +=1 ;
-			//System.out.println(getTypeDeToken());
-			
-			if (getTypeDeToken() == TypeDeToken.parentheseDroite) {
-				pos -= 1 ;
-				return Proposition();
-			}				
-			
-			if (getTypeDeToken() == TypeDeToken.tiret) {
-				pos -= 1 ;
-				Lieu();
+		TypeDeToken typeToken = null;
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			lireToken();
+			if (getTypeDeToken() == TypeDeToken.intVal) {
+				lireToken();
+				typeToken = getTypeDeToken();
 			}
-			
-			
 		}
-		return null;
+		return typeToken;
 		
 	}
 	
