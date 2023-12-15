@@ -109,7 +109,7 @@ public class AnalyseLexicale {
         if (c == '-') return 1;
         if (c == ')') return 2;
         if (Character.isDigit(c)) return 3;
-        if (Character.isLetter(c)) return 4;
+        if (Character.isLetter(c) || Character.isWhitespace(c)) return 4;
         if (c == '[') return 5;
         if (c == ']') return 6;
         System.out.println("Symbole inconnu : " + c);
