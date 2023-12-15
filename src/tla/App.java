@@ -47,6 +47,11 @@ public class App implements ActionListener {
 
     // Boutons de proposition
     ArrayList<JButton> btns;
+    
+    //ATTENTION : PENSER A ADAPTER LE CHEMIN DU FICHIER.
+    String cheminFichier = "C:\\Users\\Andr�a\\Dropbox\\"
+			+ "Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\"
+			+ "Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
 
     public static void main(String[] args) {
         App app = new App();
@@ -62,7 +67,7 @@ public class App implements ActionListener {
 
     private void init() throws Exception {
         // Charge le contenu de l'aventure
-        lieux = travailGodiveauLeguay();
+        lieux = analyseGodiveauLeguay();
 
         // Prépare l'IHM
         labels = new JLabel[nbLignes];
@@ -88,32 +93,13 @@ public class App implements ActionListener {
         }
 
         // Démarre l'aventure au lieu n° 1
-        lieuActuel = lieux.get(1);
+        lieuActuel = obtenirPremierLieu();
         initLieu();
 
         frame.pack();
         frame.setVisible(true);
     }
 
-    private Map<Integer, Lieu> travailGodiveauLeguay() throws Exception {
-    	/*String cheminFichier = "C:\\Users\\Andr�a\\Dropbox\\"
-				+ "Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\"
-				+ "Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
-		
-		ConvertionFichierEnString cf = new ConvertionFichierEnString();
-		
-		String lieuxPropo = cf.obtenirLieuxPropositions(cheminFichier);*/
-    	
-    	String lieuxPropo = "22-*Chambre*1)*Ranger*[1]*2)*Sortir*[2]*2-*TestLieux*3)*Propo*[5]";
-		
-    	AnalyseLexicale al = new AnalyseLexicale();
-    	List<Token> listToken = al.analyse(lieuxPropo);
-    	
-    	AnalyseSyntaxique as = new AnalyseSyntaxique();
-    	HashMap<Integer, Lieu> listeLieux = as.analyse(listToken);
-    	
-    	return listeLieux;
-	}
 
 	/*
      * Affichage du lieu lieuActuel et créations des boutons de propositions correspondantes
@@ -182,5 +168,33 @@ public class App implements ActionListener {
             labels[nbLignes-n+i].setText(contenu[i]);
         }
     }
+    
+    
+    private String obtenirChaineCaracteres(String cheminFichier){
+		ConvertionFichierEnString cf = new ConvertionFichierEnString();
+		return cf.obtenirLieuxPropositions(cheminFichier);    	
+    }
+    
+    private Lieu obtenirPremierLieu() throws Exception {
+    	Map<Integer, Lieu> listeLieux = analyseGodiveauLeguay();
+    	Set<Integer> ensembleCles = listeLieux.keySet();
+    	Integer premiereCle = ensembleCles.iterator().next();
+    	return listeLieux.get(premiereCle);
+    }
+    
+    
+    private Map<Integer, Lieu> analyseGodiveauLeguay() throws Exception {
+    	String lieuxPropo = obtenirChaineCaracteres(cheminFichier);
+    	
+    	AnalyseLexicale al = new AnalyseLexicale();
+    	List<Token> listToken = al.analyse(lieuxPropo);
+    	
+    	AnalyseSyntaxique as = new AnalyseSyntaxique();
+    	HashMap<Integer, Lieu> listeLieux = as.analyse(listToken);
+    	
+    	return listeLieux;
+	}
+
+    
 
 }

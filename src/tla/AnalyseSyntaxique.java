@@ -9,6 +9,8 @@ public class AnalyseSyntaxique {
 	private List<Token> tokens;
 	private int pos;
 
+	/**Méthode permettant d'obtenir le type de token à lire.*/	
+	
 	public TypeDeToken getTypeDeToken() {
 		if (pos >= tokens.size()) {
 			return null;
@@ -18,13 +20,19 @@ public class AnalyseSyntaxique {
 			return t.getTypeDeToken();
 		}		
 	}
+	
+	/**Méthode permettant d'obtenir la valeur des tokens de type intVal et stringVal.
+	 * 
+	 * Les tokens intVal et stringVal sont en réalité tous deux des chaînes de caractères.
+	 * Si le token est de l'un de ces deux types, la méthode renvoie la valeur de la chaîne de caractère.
+	 */
 
 	public String getValeurIntVal() {
 		if (pos >= tokens.size()) {
 			return null;
 		}
 		else {
-			if (getTypeDeToken() == TypeDeToken.intVal) {
+			if ((getTypeDeToken() == TypeDeToken.intVal) || (getTypeDeToken() == TypeDeToken.stringVal)) {
 				return tokens.get(pos).getValeur();
 			}
 			else
@@ -32,16 +40,31 @@ public class AnalyseSyntaxique {
 		}		
 	}
 	
+	
+	/**Méthode permettant de lire un token et de positionner le pointeur devant le token suivant.*/
+	
 	public Token lireToken() {
 		Token t = tokens.get(pos);
-		//System.out.println(t);
+		System.out.println(t);
 		pos += 1;
 		return t;
 	}
 	
+	/*
+			Num => intVal-Lieu
+			Lieu => *stringVal*Num’
+			Num’ => intVal) Propo A A’
+			Propo => *stringVal A’
+			A => *[intval] | S
+			A’ =>*intVal) Propo*/
+
+
+	/**Méthode permettant de créer une HashMap de Lieu.*/
+	
 	public HashMap<Integer, Lieu> S() {
+		//production S => Num | E
+		
 		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
-		int numLieu = 1;
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
 			lireToken();
@@ -49,25 +72,22 @@ public class AnalyseSyntaxique {
 			TypeDeToken typeToken = getTypeDeToken();
 
 			while (typeToken == TypeDeToken.tiret) {
-				/*pos -= 1;
+				pos -= 1;
 				String numLieu = getValeurIntVal();
 				int numEndroit = Integer.parseInt(numLieu);
-				pos += 1;*/
+				pos += 1;
 				
 				lireToken();
 				
-				
 				Lieu endroit = Lieu();
 				
-				listeLieux.put(numLieu, endroit);
+				listeLieux.put(numEndroit, endroit);
 				
 				numLieu += 1;
 				
 				typeToken = getTypeDeToken();
-				//System.out.println("typeToken = " + typeToken);
 			}
 		}
-		//System.out.println("Nb lieux = " + listeLieux.size());
 		return listeLieux;
 	}
 	
@@ -190,13 +210,6 @@ public class AnalyseSyntaxique {
 			
 		return numLieu ;
 	}
-	
-	
-	/*Problèmes :
-	 * - Récupérer toutes les propositions.
-	 * - Récupérer le num du lieu d'après. 
-	 */
-	
 	
 
 	public HashMap<Integer, Lieu> analyse(List<Token> tokens) throws Exception {

@@ -9,7 +9,7 @@ public class testAnalyseSyntaxique {
 
 
 	public static void main(String[] args) {
-		testAnalyseSyntaxique("1-*Chambre*1)*Ranger (oui)*[19]*2)*Sortir*[23]*2-*TestLieux*3)*Propo*[56]");
+		testAnalyseSyntaxique("1-*Chambre*1)*Ranger.*[19]*2)*Sortir*[23]*2-*TestLieux*3)*Propo*[56]");
 	}
 
 	/*
@@ -17,7 +17,7 @@ public class testAnalyseSyntaxique {
 	affiche la liste des tokens reconnus
 	 */
 	private static void testAnalyseSyntaxique(String entree) {
-		System.out.println("test de l'analyse lexicale sur l'entrée " + entree);
+		System.out.println("test de l'analyse syntaxique sur l'entrée " + entree);
 		AnalyseLexicale al = new AnalyseLexicale();
 		List<Token> listToken = null;
 		try {
@@ -36,7 +36,7 @@ public class testAnalyseSyntaxique {
 			
 			while (iterator.hasNext()) {
 				Map.Entry mapentry = (Map.Entry) iterator.next();
-				System.out.println("Num lieux = " + mapentry.getKey());
+				System.out.print("Num lieu = " + mapentry.getKey() + " ; ");
 				Lieu lieu = (Lieu) mapentry.getValue();
 				System.out.println("description = " + lieu.description + " ; nb propo = " + lieu.propositions.size());
 			 } 
