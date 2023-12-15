@@ -8,21 +8,25 @@ import java.util.List;
 
 public class ConvertionFichierEnString {
 	
+	/**Méthode permettant de convertir un fichier en chaîne de caractères.
+	 * 
+	 * On crée une chaîne de caractères et tant que l'on n'est pas arrivé au bout du fichier, on ajoute chaque ligne à cette chaîne.
+	 */
+	
 	public String obtenirLieuxPropositions(String cheminFichier) {
 		String lieuxPropositions = "";
 		try {
-			// Création d'un fileReader pour lire le fichier
 			FileReader fileReader = new FileReader(cheminFichier);
-			
-			// Création d'un bufferedReader qui utilise le fileReader
 			BufferedReader reader = new BufferedReader(fileReader);
 			
-			// une fonction à essayer pouvant générer une erreur
+			//Lecture de la première ligne.
 			String line = reader.readLine();
 			
+			//Tant que l'on n'est pas arrivé au bout du fichier, ...
 			while (line != null) {
 				lieuxPropositions = lieuxPropositions + line;
-				//System.out.println(lieuxPropositions);
+				
+				//Lecture de la ligne suivante
 				line = reader.readLine();
 			}
 			reader.close();

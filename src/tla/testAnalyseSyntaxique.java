@@ -13,11 +13,11 @@ public class testAnalyseSyntaxique {
 	}
 
 	/*
-	effectue l'analyse lexicale de la chaine entree,
-	affiche la liste des tokens reconnus
+	Effectue les analyses lexicales et syntaxiques de la chaîne entree.
+	Affiche la liste de Lieu.
 	 */
 	private static void testAnalyseSyntaxique(String entree) {
-		System.out.println("test de l'analyse syntaxique sur l'entrÃ©e " + entree);
+		System.out.println("test de l'analyse syntaxique sur l'entrée " + entree);
 		AnalyseLexicale al = new AnalyseLexicale();
 		List<Token> listToken = null;
 		try {

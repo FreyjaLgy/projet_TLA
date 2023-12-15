@@ -45,33 +45,25 @@ public class AnalyseSyntaxique {
 	
 	public Token lireToken() {
 		Token t = tokens.get(pos);
-		System.out.println(t);
+		//System.out.println(t);
 		pos += 1;
 		return t;
 	}
-	
-	/*
-			Num => intVal-Lieu
-			Lieu => *stringVal*Num’
-			Num’ => intVal) Propo A A’
-			Propo => *stringVal A’
-			A => *[intval] | S
-			A’ =>*intVal) Propo*/
 
 
-	/**Méthode permettant de créer une HashMap de Lieu.*/
+	/**Méthode permettant de créer une HashMap de Lieu.
+	 * 
+	 * On crée une liste de Lieu, et à chaque fois que l'on trouve un intVal suivi d'un tiret, on ajoute un lieu à cette liste.*/
 	
 	public HashMap<Integer, Lieu> S() {
-		//production S => Num | E
+		//production S => Lieu | E
 		
 		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
 			lireToken();
 
-			TypeDeToken typeToken = getTypeDeToken();
-
-			while (typeToken == TypeDeToken.tiret) {
+			while (getTypeDeToken() == TypeDeToken.tiret) {
 				pos -= 1;
 				String numLieu = getValeurIntVal();
 				int numEndroit = Integer.parseInt(numLieu);
@@ -84,39 +76,35 @@ public class AnalyseSyntaxique {
 				listeLieux.put(numEndroit, endroit);
 				
 				numLieu += 1;
-				
-				typeToken = getTypeDeToken();
 			}
 		}
 		return listeLieux;
 	}
 	
+	
+	/**Méthode permettant de créer un Lieu.
+	 * 
+	 *On lit un delimiteur, un stringVal (la description du lieu), puis un autre delimiteur.
+	 *On cherche ensuite les propositions associées au lieu.
+	 *Enfin, on crée le lieu.
+	 * 
+	 */
+	
 	public Lieu Lieu() {
-		//production Lieu => intVal-*stringVal*Proposition
+		//production Lieu => intVal-*stringVal*Num
 		
 		Lieu lieu = null;
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
-		
-		
 				
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
 			
 			if (getTypeDeToken() == TypeDeToken.stringVal) {
-				//lireToken();
 				String description = lireToken().getValeur();
 						
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					//System.out.println("Description lieu = " + description);
-						
 					lireToken();
 					listePropositions = Num();
-						
-					for (Proposition propo : listePropositions) {
-					    //System.out.println("action propo = " + propo.texte + " ; numero lieu = " + propo.numeroLieu); 
-					}
-							
-					//System.out.println("Nb propo (lieu) = " + listePropositions.size());
 							
 					lieu = new Lieu(description, listePropositions);
 				}
@@ -126,70 +114,63 @@ public class AnalyseSyntaxique {
 		return lieu;
 	}
 	
+	
+	/**Méthode permettant de créer une liste de propositions.
+	 * 
+	 * On crée une liste de propositions, et à chaque fois que l'on trouve un intVal et une parentheseDroite, on récupère le contenu de la
+	 * proposition et le numéro du lieu vers lequel elle renvoie.
+	 * A partir de là, on crée une proposition qu'on ajoute à la liste.
+	 */
+	
 	public List<Proposition> Num() {
-		//production Lieu => intVal-*stringVal*Proposition
+		//production Num => intVal) Propo A A’
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
 			lireToken();
 			
-			TypeDeToken typeToken = getTypeDeToken();
-
-			while (typeToken == TypeDeToken.parentheseDroite) {
-				//System.out.println(typeToken);
-				//System.out.println("entree");
-				
+			while (getTypeDeToken() == TypeDeToken.parentheseDroite) {				
 				lireToken();
 				
-				String actionProposition = Proposition();
-				String numLieu = A_prime();
+				String contenuProposition = Proposition();
+				String numLieu = A();
 				int idLieu = Integer.parseInt(numLieu);
-				Proposition proposition = new Proposition(actionProposition, idLieu);
-				listePropositions.add(proposition);
+				Proposition proposition = new Proposition(contenuProposition, idLieu);
+				listePropositions.add(proposition);				
 				
-				//System.out.println("Nb propo = " + listePropositions.size());
-				
-				//Proposition();
-				
-				
-				typeToken = A();							
+				A_prime();							
 			}
 		} 
 		return listePropositions;
 	}
 	
 	
+	/**Méthode permettant de récupérer le contenu d'une proposition.
+	 * 
+	 * On lit un delimiteur et on renvoie la valeur du stringVal qui suit.
+	 */
+	
+	
 	public String Proposition() {
+		//production Propo => *stringVal A’
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
 		
 			if (getTypeDeToken() == TypeDeToken.stringVal) {
-				String actionProposition = lireToken().getValeur();
-				
-				//System.out.println("Action = " + actionProposition);
-				
-				return actionProposition;
+				return lireToken().getValeur();
 			}
 		}
 		return null;
 	}
 	
 	
-	public TypeDeToken A() {
-		//production A' => Proposition | S | E
-		TypeDeToken typeToken = null;
-		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			lireToken();
-			if (getTypeDeToken() == TypeDeToken.intVal) {
-				lireToken();
-				typeToken = getTypeDeToken();
-			}
-		}
-		return typeToken;
-		
-	}
+	/**Méthode permettant de récupérer le numéro du lieu vers lequel une proposition renvoie.
+	 * 
+	 * On lit un delimiteur, un crocheGauche, un intVal et un crochetDroit. On renvoie la valeur de l'intVal.
+	 */
 	
-	public String A_prime() {
+	public String A() {
+		//production A => *[intval]
 		String numLieu = null;
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
@@ -211,6 +192,22 @@ public class AnalyseSyntaxique {
 		return numLieu ;
 	}
 	
+	/**Méthode permettant de lire le delimiteur et l'intVal qui précède le contenu d'une proposition. 
+	 */
+	
+	public void A_prime() {
+		//production A’ =>*intVal) Propo
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			lireToken();
+			if (getTypeDeToken() == TypeDeToken.intVal) {
+				lireToken();
+			}
+		}
+	}
+	
+	
+	/**Méthode retournant une map de Lieu créée à partir d'une liste de tokens.
+	 */
 
 	public HashMap<Integer, Lieu> analyse(List<Token> tokens) throws Exception {
 		this.pos = 0;

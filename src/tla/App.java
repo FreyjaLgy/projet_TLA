@@ -170,10 +170,17 @@ public class App implements ActionListener {
     }
     
     
+    /**Méthode permettant de récupérer la chaîne de caractères correspondant au contenu du fichier.
+     */
+    
     private String obtenirChaineCaracteres(String cheminFichier){
 		ConvertionFichierEnString cf = new ConvertionFichierEnString();
 		return cf.obtenirLieuxPropositions(cheminFichier);    	
     }
+    
+    
+    /**Méthode permettant de récupérer le premier Lieu de la liste de Lieu afin d'initialiser le jeu.
+     */
     
     private Lieu obtenirPremierLieu() throws Exception {
     	Map<Integer, Lieu> listeLieux = analyseGodiveauLeguay();
@@ -182,6 +189,10 @@ public class App implements ActionListener {
     	return listeLieux.get(premiereCle);
     }
     
+    
+    /**Méthode permettant d'effectuer les analyses lexicales et syntaxiques de la chaîne de caractères créée à partir du fichier, et d'en extraire
+     * la liste des Lieu associées à leurs Proposition.
+     */
     
     private Map<Integer, Lieu> analyseGodiveauLeguay() throws Exception {
     	String lieuxPropo = obtenirChaineCaracteres(cheminFichier);
