@@ -40,9 +40,9 @@ public class AnalyseLexicale {
         String buf = "";
         Integer etat = ETAT_INITIAL;
 
-        Character c;
-        do {
-            c = lireCaractere();
+        Character c = lireCaractere();;
+        while (c != null) {
+
             Integer e = TRANSITIONS[etat][indiceSymbole(c)];
             if (e == null) {
                 System.out.println("pas de transition depuis état " + etat + " avec symbole " + c);
@@ -73,9 +73,8 @@ public class AnalyseLexicale {
                 // ajoute le symbole qui vient d'être examiné à buf
                 buf += c;
             }
-
-        } while (c != null);
-
+            c = lireCaractere();
+        }
         return tokens;
     }
 
