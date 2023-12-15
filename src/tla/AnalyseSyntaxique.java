@@ -29,12 +29,6 @@ public class AnalyseSyntaxique {
 		return pos >= tokens.size();
 	}
 	
-	/*S => Lieu
-	Lieu => intVal- *stringVal*Proposition
-	Proposition => intVal)*stringVal*A'
-	A' => Proposition | S | E*/
-
-	
 	public Lieu S() {
 		return Lieu();
 	}
