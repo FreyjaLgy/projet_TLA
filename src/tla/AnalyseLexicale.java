@@ -10,16 +10,18 @@ public class AnalyseLexicale {
     private static Integer TRANSITIONS[][] = {
             //Là où il y a un null c'est que je sais pas encore quoi mettre
             //           0    1    2       3            4
-            //           *    -    )    chiffre  lettre+caractères
-            /*  0 */   {101, 102, 103,   1,   2},
-            /*  1 */   {104, 104, 104,   1, 104},
-            /*  2 */   {105,   2,   2,   2,   2}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
+            //           *    -    )    chiffre  lettre+caractères   [     ]
+            /*  0 */   {101, 102, 103,   1,          2,               106,  107},
+            /*  1 */   {104, 104, 104,   1,         104,              104,  104},
+            /*  2 */   {105,   2,   2,   2,          2,               105,   2}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
 
             // 101 acceptation d'un *
             // 102 acceptation d'un -
             // 103 acceptation d'un )
             // 104 acceptation d'un entier (retourArriere)
             // 105 acceptation d'un texte (retourArriere)
+            // 106 acceptation d'un [
+            // 107 acceptation d'un ]
 
     };
 
@@ -62,6 +64,10 @@ public class AnalyseLexicale {
                 } else if (e == 105) {
                     tokens.add(new Token(TypeDeToken.stringVal, buf));
                     retourArriere();
+                } else if (e == 106) {
+                    tokens.add(new Token(TypeDeToken.crochetGauche));
+                } else if (e == 107) {
+                    tokens.add(new Token(TypeDeToken.crochetDroit));
                 }
                 // un état d'acceptation ayant été atteint, retourne à l'état 0
                 etat = 0;
@@ -104,6 +110,8 @@ public class AnalyseLexicale {
         if (c == ')') return 2;
         if (Character.isDigit(c)) return 3;
         if (Character.isLetter(c)) return 4;
+        if (c == '[') return 5;
+        if (c == ']') return 6;
         System.out.println("Symbole inconnu : " + c);
         throw new IllegalCharacterException(c.toString());
     }

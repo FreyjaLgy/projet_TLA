@@ -6,7 +6,7 @@ public class testAnalyseSyntaxique {
 
 
 	public static void main(String[] args) {
-		testAnalyseLexicale("1-*Chambre*1)*Ranger*2)*Sortir*2-*Cuisine*1)*Fairelavaisselle");
+		testAnalyseLexicale("1-*Chambre*1)*Ranger*[19]*2)*Sortir*[23]");
 	}
 
 	/*

@@ -6,7 +6,7 @@ import java.util.List;
 public class Test {
 
 	public static void main(String[] args) {
-		testAnalyseLexicale("1");
+		testAnalyseLexicale("1-*Chambre*1)*Ranger*[1]");
 	}
 
 	/*
@@ -23,7 +23,7 @@ public class Test {
 			throw new RuntimeException(e);
 		}
 		for (Token t : listToken) {
-			System.out.print(t.toString());
+			System.out.println(t.toString());
 		}
 		System.out.println();
 	}

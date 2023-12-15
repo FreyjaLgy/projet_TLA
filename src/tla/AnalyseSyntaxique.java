@@ -96,7 +96,9 @@ public class AnalyseSyntaxique {
 				lireToken();
 				
 				String actionProposition = Proposition();
-				Proposition proposition = new Proposition(actionProposition, 1);
+				String numLieu = A_prime();
+				int idLieu = Integer.parseInt(numLieu);
+				Proposition proposition = new Proposition(actionProposition, idLieu);
 				listePropositions.add(proposition);
 				
 				//System.out.println("Nb propo = " + listePropositions.size());
@@ -104,15 +106,10 @@ public class AnalyseSyntaxique {
 				//Proposition();
 				
 				
-				typeToken = A();
-				
-				
-				
-							
+				typeToken = A();							
 			}
 		} 
 		return listePropositions;
-		//return null;
 	}
 	
 	
@@ -146,6 +143,29 @@ public class AnalyseSyntaxique {
 		return typeToken;
 		
 	}
+	
+	public String A_prime() {
+		String numLieu = null;
+		
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			lireToken();
+			
+			if (getTypeDeToken() == TypeDeToken.crochetGauche) {
+				lireToken();
+				
+				if (getTypeDeToken() == TypeDeToken.intVal){
+					numLieu = lireToken().getValeur();
+					
+					if (getTypeDeToken() == TypeDeToken.crochetDroit) {
+						lireToken();
+					}
+				}
+			}
+		}
+			
+		return numLieu ;
+	}
+	
 	
 	/*Problèmes :
 	 * - Récupérer toutes les propositions.

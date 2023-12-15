@@ -7,5 +7,7 @@ public enum TypeDeToken {
 	parentheseDroite,
 	tiret,
 	lieu,
-	proposition
+	proposition,
+	crochetGauche,
+	crochetDroit
 }
