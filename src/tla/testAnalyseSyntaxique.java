@@ -9,7 +9,7 @@ public class testAnalyseSyntaxique {
 
 
 	public static void main(String[] args) {
-		testAnalyseSyntaxique("22-*Chambre*1)*Ranger*[19]*2)*Sortir*[23]*23-*TestLieux*3)*Propo*[56]");
+		testAnalyseSyntaxique("1-*Chambre*1)*Ranger (oui)*[19]*2)*Sortir*[23]*2-*TestLieux*3)*Propo*[56]");
 	}
 
 	/*

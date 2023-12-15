@@ -109,11 +109,26 @@ public class AnalyseLexicale {
         if (c == '-') return 1;
         if (c == ')') return 2;
         if (Character.isDigit(c)) return 3;
-        if (Character.isLetter(c) || Character.isWhitespace(c)) return 4;
         if (c == '[') return 5;
         if (c == ']') return 6;
+        if (estStringVal(c)) return 4;
         System.out.println("Symbole inconnu : " + c);
         throw new IllegalCharacterException(c.toString());
+    }
+
+    /*
+    //Accepte !$%^&()"'{}_[]|\?/<>,.;
+     */
+    private static boolean estStringVal(Character c) {
+        boolean estStringVal=false;
+        String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;";
+        if (caracteresSpeciaux.indexOf(c) != -1)
+            estStringVal=true;
+        if (Character.isLetter(c))
+            estStringVal=true;
+        if (Character.isWhitespace(c))
+            estStringVal=true;
+        return estStringVal;
     }
 
 }

@@ -7,7 +7,7 @@ public class testComplet {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\"
+		String cheminFichier = "C:\\Users\\Andrï¿½a\\Dropbox\\"
 				+ "Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\"
 				+ "Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
 		
