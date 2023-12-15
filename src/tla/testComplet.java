@@ -1,18 +1,26 @@
 package tla;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class testComplet {
 
 	public static void main(String[] args) {
-		testAnalyseLexicale("1-*Chambre5desefqse*1)*Ranger3fdqed*[1]");
-	}
+		// TODO Auto-generated method stub
+		
+		String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\"
+				+ "Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\"
+				+ "Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
+		
+		ConvertionFichierEnString cf = new ConvertionFichierEnString();
+		
+		String lieuxPropo = cf.obtenirLieuxPropositions(cheminFichier);
+		
+		//System.out.println(lieuxPropo);
+		
+		testAnalyseLexicale(lieuxPropo);
 
-	/*
-	effectue l'analyse lexicale de la chaine entree,
-	affiche la liste des tokens reconnus
-	 */
+	}
+	
 	private static void testAnalyseLexicale(String entree) {
 		System.out.println("test de l'analyse lexicale sur l'entrÃ©e " + entree);
 		AnalyseLexicale al = new AnalyseLexicale();
@@ -27,5 +35,6 @@ public class Test {
 		}
 		System.out.println();
 	}
+
 
 }

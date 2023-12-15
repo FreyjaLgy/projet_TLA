@@ -1,0 +1,39 @@
+1-*Vous reprenez conscience.
+Vous �tes dans un souterrain en partie �boul�.
+L'un des bouts de souterrain se prolonge au-delà de la portée de votre lampe;
+Tout près de vous, des pierres et des gravats bloquent entièrement le passage.
+Il faut maintenant sortir de là !
+
+1) Tentez-vous de dégager l'éboulement pour éventuellement ressortir par oà¹ avez dà» entrer ? [13]
+2) Explorez-vous le souterrain dans l'autre direction ? [9]
+
+
+2-*Au bout de quelques vingt ou trente mètres, le couloir se termine en cul-de-sac à cause d'un éboulement.
+
+3) Faites-vous demi-tour ? [27]
+4) Décidez-vous de vous frayez un passage à travers les gravats ? [16]
+
+3-*Quelque vingt mètres plus loin, vous arrivez au pied d'un escalier.
+Que faites-vous ?
+
+5) Vous examinez la fresque ? [20]
+6) Vous empruntez le couloir en face de l'escalier ? [18]
+7) Vous tournez à droite pour explorer le prolongement de la salle ? [2]
+
+4-*L'éboulement est récent, et les gravats instables.
+Dans un soudain nuage de poussière, une pluie de pierres vous ensevelit.
+Perdez 2 points de survie. Si vous pouvez les dépenser, vous vous dégagez de la nouvelle avalanche.
+Quelle est ensuite votre décision ?
+
+8) Vous continuez à tenter de déblayer ? [17]
+9) Vous abandonnez et commencez à explorer le couloir dans l'autre sens ? [9]
+
+5-*Une nouvelle avalanche de gravats se déverse sur vous.
+
+10) Vous continuez côte que côte à déblayer ? [13]
+11) Vous baissez les bras et commencez à explorer le couloir dans l'autre sens ? [9]
+
+6-*Une quinzaine de mètre plus loin, le couloir est creusé de deux alcôves
+
+11) Vous les examinez de près ? [11]
+12) Vous continuez votre chemin ? [6]
