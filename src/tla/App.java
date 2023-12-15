@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 
 /*
  * Membres du groupe :
@@ -49,13 +50,19 @@ public class App implements ActionListener {
 
     public static void main(String[] args) {
         App app = new App();
-        SwingUtilities.invokeLater(() -> app.init());
+        SwingUtilities.invokeLater(() -> {
+			try {
+				app.init();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
     }
 
-    private void init() {
-
+    private void init() throws Exception {
         // Charge le contenu de l'aventure
-        lieux = ContenuAventure.init();
+        lieux = travailGodiveauLeguay();
 
         // Prépare l'IHM
         labels = new JLabel[nbLignes];
@@ -88,7 +95,27 @@ public class App implements ActionListener {
         frame.setVisible(true);
     }
 
-    /*
+    private Map<Integer, Lieu> travailGodiveauLeguay() throws Exception {
+    	/*String cheminFichier = "C:\\Users\\Andr�a\\Dropbox\\"
+				+ "Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\"
+				+ "Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
+		
+		ConvertionFichierEnString cf = new ConvertionFichierEnString();
+		
+		String lieuxPropo = cf.obtenirLieuxPropositions(cheminFichier);*/
+    	
+    	String lieuxPropo = "22-*Chambre*1)*Ranger*[1]*2)*Sortir*[2]*2-*TestLieux*3)*Propo*[5]";
+		
+    	AnalyseLexicale al = new AnalyseLexicale();
+    	List<Token> listToken = al.analyse(lieuxPropo);
+    	
+    	AnalyseSyntaxique as = new AnalyseSyntaxique();
+    	HashMap<Integer, Lieu> listeLieux = as.analyse(listToken);
+    	
+    	return listeLieux;
+	}
+
+	/*
      * Affichage du lieu lieuActuel et créations des boutons de propositions correspondantes
      * à ce lieu
      */

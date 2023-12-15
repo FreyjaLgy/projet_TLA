@@ -1,19 +1,22 @@
 package tla;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class testAnalyseSyntaxique {
 
 
 	public static void main(String[] args) {
-		testAnalyseLexicale("1-*Chambre*1)*Ranger*[19]*2)*Sortir*[23]*2-*TestLieux*3)*Propo*[56]");
+		testAnalyseSyntaxique("22-*Chambre*1)*Ranger*[19]*2)*Sortir*[23]*23-*TestLieux*3)*Propo*[56]");
 	}
 
 	/*
 	effectue l'analyse lexicale de la chaine entree,
 	affiche la liste des tokens reconnus
 	 */
-	private static void testAnalyseLexicale(String entree) {
+	private static void testAnalyseSyntaxique(String entree) {
 		System.out.println("test de l'analyse lexicale sur l'entrée " + entree);
 		AnalyseLexicale al = new AnalyseLexicale();
 		List<Token> listToken = null;
@@ -21,15 +24,22 @@ public class testAnalyseSyntaxique {
 			listToken = al.analyse(entree);
 			
 			for (Token t : listToken) {
-				System.out.print(t.toString());
+				//System.out.print(t.toString());
 			}
 			System.out.println();
-			
-			System.out.println(listToken.size());
 
 			AnalyseSyntaxique as = new AnalyseSyntaxique();
 			
-			as.analyse(listToken);
+			HashMap<Integer, Lieu> listeLieux = as.analyse(listToken);
+			
+			Iterator iterator = listeLieux.entrySet().iterator();
+			
+			while (iterator.hasNext()) {
+				Map.Entry mapentry = (Map.Entry) iterator.next();
+				System.out.println("Num lieux = " + mapentry.getKey());
+				Lieu lieu = (Lieu) mapentry.getValue();
+				System.out.println("description = " + lieu.description + " ; nb propo = " + lieu.propositions.size());
+			 } 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

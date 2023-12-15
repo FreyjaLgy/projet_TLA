@@ -1,6 +1,7 @@
 package tla;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AnalyseSyntaxique {
@@ -17,20 +18,57 @@ public class AnalyseSyntaxique {
 			return t.getTypeDeToken();
 		}		
 	}
+
+	public String getValeurIntVal() {
+		if (pos >= tokens.size()) {
+			return null;
+		}
+		else {
+			if (getTypeDeToken() == TypeDeToken.intVal) {
+				return tokens.get(pos).getValeur();
+			}
+			else
+				return null;
+		}		
+	}
 	
 	public Token lireToken() {
 		Token t = tokens.get(pos);
-		System.out.println(t);
+		//System.out.println(t);
 		pos += 1;
 		return t;
 	}
 	
-	public boolean finAtteinte() {
-		return pos >= tokens.size();
-	}
-	
-	public Lieu S() {
-		return Lieu();
+	public HashMap<Integer, Lieu> S() {
+		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
+		int numLieu = 1;
+		
+		if (getTypeDeToken() == TypeDeToken.intVal) {
+			lireToken();
+
+			TypeDeToken typeToken = getTypeDeToken();
+
+			while (typeToken == TypeDeToken.tiret) {
+				/*pos -= 1;
+				String numLieu = getValeurIntVal();
+				int numEndroit = Integer.parseInt(numLieu);
+				pos += 1;*/
+				
+				lireToken();
+				
+				
+				Lieu endroit = Lieu();
+				
+				listeLieux.put(numLieu, endroit);
+				
+				numLieu += 1;
+				
+				typeToken = getTypeDeToken();
+				//System.out.println("typeToken = " + typeToken);
+			}
+		}
+		//System.out.println("Nb lieux = " + listeLieux.size());
+		return listeLieux;
 	}
 	
 	public Lieu Lieu() {
@@ -39,34 +77,28 @@ public class AnalyseSyntaxique {
 		Lieu lieu = null;
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
-		if (getTypeDeToken() == TypeDeToken.intVal) {
-			lireToken();
-
-			if (getTypeDeToken() == TypeDeToken.tiret) {
-				lireToken();
+		
 				
-				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					lireToken();
-					
-					if (getTypeDeToken() == TypeDeToken.stringVal) {
-						//lireToken();
-						String description = lireToken().getValeur();
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			lireToken();
+			
+			if (getTypeDeToken() == TypeDeToken.stringVal) {
+				//lireToken();
+				String description = lireToken().getValeur();
 						
-						if (getTypeDeToken() == TypeDeToken.delimiteur) {
-							//System.out.println("Description lieu = " + description);
-							
-							lireToken();
-							listePropositions = Num();
-							
-							for (Proposition propo : listePropositions) {
-							    System.out.println("action propo = " + propo.texte + " ; numero lieu = " + propo.numeroLieu); 
-							}
-							
-							System.out.println("Nb propo (lieu) = " + listePropositions.size());
-							
-							lieu = new Lieu(description, listePropositions);						
-						}
+				if (getTypeDeToken() == TypeDeToken.delimiteur) {
+					//System.out.println("Description lieu = " + description);
+						
+					lireToken();
+					listePropositions = Num();
+						
+					for (Proposition propo : listePropositions) {
+					    //System.out.println("action propo = " + propo.texte + " ; numero lieu = " + propo.numeroLieu); 
 					}
+							
+					//System.out.println("Nb propo (lieu) = " + listePropositions.size());
+							
+					lieu = new Lieu(description, listePropositions);
 				}
 			}
 		}
@@ -110,7 +142,6 @@ public class AnalyseSyntaxique {
 	public String Proposition() {
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
-			System.out.println("ce delimiteur");
 		
 			if (getTypeDeToken() == TypeDeToken.stringVal) {
 				String actionProposition = lireToken().getValeur();
@@ -168,11 +199,11 @@ public class AnalyseSyntaxique {
 	
 	
 
-	public void analyse(List<Token> tokens) throws Exception {
+	public HashMap<Integer, Lieu> analyse(List<Token> tokens) throws Exception {
 		this.pos = 0;
 		this.tokens = tokens;
 		
-		S();
+		return S();
 	}
 	
 }

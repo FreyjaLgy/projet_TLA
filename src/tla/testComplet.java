@@ -15,13 +15,13 @@ public class testComplet {
 		
 		String lieuxPropo = cf.obtenirLieuxPropositions(cheminFichier);
 		
-		//System.out.println(lieuxPropo);
+		System.out.println(lieuxPropo);
 		
-		testAnalyseLexicale(lieuxPropo);
+		testAnalyses(lieuxPropo);
 
 	}
 	
-	private static void testAnalyseLexicale(String entree) {
+	private static void testAnalyses(String entree) {
 		System.out.println("test de l'analyse lexicale sur l'entrée " + entree);
 		AnalyseLexicale al = new AnalyseLexicale();
 		List<Token> listToken = null;
