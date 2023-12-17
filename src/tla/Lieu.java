@@ -15,4 +15,5 @@ public class Lieu {
         this.description = description;
         this.propositions = propositions;
     }
+
 }

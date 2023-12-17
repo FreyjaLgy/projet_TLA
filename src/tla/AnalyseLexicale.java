@@ -8,7 +8,6 @@ public class AnalyseLexicale {
     Table de transition de l'analyse lexicale
      */
     private static Integer TRANSITIONS[][] = {
-            //Là où il y a un null c'est que je sais pas encore quoi mettre
             //           0    1    2       3            4
             //           *    -    )    chiffre  lettre+caractères   [     ]
             /*  0 */   {101, 102, 103,   1,          2,               106,  107},
@@ -84,6 +83,9 @@ public class AnalyseLexicale {
         return tokens;
     }
 
+    /*
+    Permet de lire le caractère à la position pos
+     */
     private Character lireCaractere() {
         Character c;
         try {
@@ -100,9 +102,8 @@ public class AnalyseLexicale {
     }
 
     /*
-    TODO : A Modifier
     Pour chaque symbole terminal acceptable en entrée de l'analyse syntaxique
-    retourne un indice identifiant soit un symbole, soit une classe de symbole :
+    retourne un indice identifiant soit un symbole, soit une classe de symbole
      */
     private static int indiceSymbole(Character c) throws IllegalCharacterException {
         if (c == null || c == '*') return 0;
@@ -117,12 +118,14 @@ public class AnalyseLexicale {
     }
 
     /*
-    //Accepte !$%^&()"'{}_[]|\?/<>,.;
+    Les textes de l'aventure peuvent contenir des symboles, tels que des parenthèses.
+    Cette fonction permet de définir ce qui est acceptable dans les String de nos lieux/propositions.
+    Elle accepte !$%^&()"'{}_[]|\?/<>,.;: en plus des lettres et des espaces
+    Renvoie true si c'est un caractère qu'on accepte, false sinon
      */
     private static boolean estStringVal(Character c) {
         boolean estStringVal=false;
-        //String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;";
-        String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;";
+        String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;:";
         
         if (caracteresSpeciaux.indexOf(c) != -1)
             estStringVal=true;
