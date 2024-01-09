@@ -6,7 +6,8 @@ import java.util.List;
 public class Test {
 
 	public static void main(String[] args) {
-		testAnalyseLexicale("1-*Chambre 5desefqse.*1)*Ranger3fdqed*[1]");
+		testAnalyseLexicale("1-*Chambre 5desefqse.*1)*Ranger3fdqed*[1]" +
+				"1)*mange tes morts*Morts*+1PV*(PV>5)PV<10||PV<4*[2]");
 	}
 
 	/*

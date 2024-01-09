@@ -4,6 +4,7 @@ public enum TypeDeToken {
 	intVal,
 	stringVal,
 	delimiteur,
+	parentheseGauche,
 	parentheseDroite,
 	tiret,
 	lieu,
@@ -13,6 +14,9 @@ public enum TypeDeToken {
 	etLogique,
 	ouLogique,
 	inferieur,
-	superieur
+	superieur,
+	plus,
+	PV,
+	Random
 
 }
