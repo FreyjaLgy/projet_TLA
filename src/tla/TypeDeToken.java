@@ -9,5 +9,10 @@ public enum TypeDeToken {
 	lieu,
 	proposition,
 	crochetGauche,
-	crochetDroit
+	crochetDroit,
+	etLogique,
+	ouLogique,
+	inferieur,
+	superieur
+
 }

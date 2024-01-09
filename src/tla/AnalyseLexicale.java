@@ -8,19 +8,25 @@ public class AnalyseLexicale {
     Table de transition de l'analyse lexicale
      */
     private static Integer TRANSITIONS[][] = {
-            //           0    1    2       3            4
-            //           *    -    )    chiffre  lettre+caractères   [     ]
-            /*  0 */   {101, 102, 103,   1,          2,               106,  107},
-            /*  1 */   {104, 104, 104,   1,         104,              104,  104},
-            /*  2 */   {105,   2,   2,   2,          2,               105,   2}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
+            //           0    1    2       3            4              5     6     7    8    9   10
+            //           *    -    )    chiffre  lettre+caractères     [     ]     &    |    >    <
+            /*  0 */   {101, 102, 103,     1,           2,            106,  107,   3,   4,  110, 111},
+            /*  1 */   {104, 104, 104,     1,         104,            104,  104, 104, 104,  104, 104},
+            /*  2 */   {105,   2,   2,     2,           2,              2,    2,   2,   2,    2,   2}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
+            /*  3 */   {105,   2,   2,     2,           2,              2,    2, 108,   2,    2,   2}, //Ligne qui permet d'accepter &&
+            /*  4 */   {105,   2,   2,     2,           2,              2,    2,   2, 109,    2,   2}, //Ligne qui permet d'accepter ||
 
             // 101 acceptation d'un *
             // 102 acceptation d'un -
             // 103 acceptation d'un )
             // 104 acceptation d'un entier (retourArriere)
-            // 105 acceptation d'un texte (retourArriere)
+            // 105 acceptation d'un texte, sert aussi pour les identifiants (retourArriere)
             // 106 acceptation d'un [
             // 107 acceptation d'un ]
+            // 108 acceptation d'un &&
+            // 109 acceptation d'un ||
+            // 110 acceptation d'un >
+            // 111 acceptation d'un <
 
     };
 
@@ -67,7 +73,16 @@ public class AnalyseLexicale {
                     tokens.add(new Token(TypeDeToken.crochetGauche));
                 } else if (e == 107) {
                     tokens.add(new Token(TypeDeToken.crochetDroit));
+                } else if (e == 108) {
+                    tokens.add(new Token(TypeDeToken.etLogique));
+                } else if (e == 109) {
+                    tokens.add(new Token(TypeDeToken.ouLogique));
+                } else if (e == 110) {
+                    tokens.add(new Token(TypeDeToken.superieur));
+                } else if (e == 111) {
+                    tokens.add(new Token(TypeDeToken.inferieur));
                 }
+
                 // un état d'acceptation ayant été atteint, retourne à l'état 0
                 etat = 0;
                 // reinitialise buf
@@ -112,6 +127,10 @@ public class AnalyseLexicale {
         if (Character.isDigit(c)) return 3;
         if (c == '[') return 5;
         if (c == ']') return 6;
+        if (c == '&') return 7;
+        if (c == '|') return 8;
+        if (c == '>') return 9;
+        if (c == '<') return 10;
         if (estStringVal(c)) return 4;
         System.out.println("Symbole inconnu : " + c);
         throw new IllegalCharacterException(c.toString());
@@ -120,12 +139,12 @@ public class AnalyseLexicale {
     /*
     Les textes de l'aventure peuvent contenir des symboles, tels que des parenthèses.
     Cette fonction permet de définir ce qui est acceptable dans les String de nos lieux/propositions.
-    Elle accepte !$%^&()"'{}_[]|\?/<>,.;: en plus des lettres et des espaces
+    Elle accepte &+-!$%^&()"'{}_[]|\?/<>,.;: en plus des lettres et des espaces
     Renvoie true si c'est un caractère qu'on accepte, false sinon
      */
     private static boolean estStringVal(Character c) {
         boolean estStringVal=false;
-        String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;:";
+        String caracteresSpeciaux = "&+-!$%^&()\"\'{}_[]|\\?/<>,.;:";
         
         if (caracteresSpeciaux.indexOf(c) != -1)
             estStringVal=true;
