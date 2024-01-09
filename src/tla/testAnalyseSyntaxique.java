@@ -9,7 +9,8 @@ public class testAnalyseSyntaxique {
 
 
 	public static void main(String[] args) {
-		testAnalyseSyntaxique("1-*Chambre*1)*Ranger.*[19]*2)*Sortir*[23]*2-*TestLieux*3)*Propo*[56]");
+		testAnalyseSyntaxique("1-*Jardin*"
+				+ "1)*Prendre la fleur par terre.*Fleur*+1pv*pv > 5*[1]*");
 	}
 
 	/*
@@ -17,16 +18,18 @@ public class testAnalyseSyntaxique {
 	Affiche la liste de Lieu.
 	 */
 	private static void testAnalyseSyntaxique(String entree) {
-		System.out.println("test de l'analyse syntaxique sur l'entrée " + entree);
+		System.out.println("test de l'analyse syntaxique sur l'entrée ");
+		System.out.println(entree);
+		System.out.println();
 		AnalyseLexicale al = new AnalyseLexicale();
 		List<Token> listToken = null;
 		try {
 			listToken = al.analyse(entree);
 			
 			for (Token t : listToken) {
-				//System.out.print(t.toString());
+				//System.out.println(t.toString());
 			}
-			System.out.println();
+			//System.out.println();
 
 			AnalyseSyntaxique as = new AnalyseSyntaxique();
 			

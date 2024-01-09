@@ -4,10 +4,19 @@ public enum TypeDeToken {
 	intVal,
 	stringVal,
 	delimiteur,
+	parentheseGauche,
 	parentheseDroite,
 	tiret,
 	lieu,
 	proposition,
 	crochetGauche,
-	crochetDroit
+	crochetDroit,
+	etLogique,
+	ouLogique,
+	inferieur,
+	superieur,
+	plus,
+	PV,
+	Random
+
 }
