@@ -125,7 +125,7 @@ public class AnalyseLexicale {
      */
     private static boolean estStringVal(Character c) {
         boolean estStringVal=false;
-        String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;:";
+        String caracteresSpeciaux = "-!$%^&()\"\'{}_[]|\\?/<>,.;:¨";
         
         if (caracteresSpeciaux.indexOf(c) != -1)
             estStringVal=true;

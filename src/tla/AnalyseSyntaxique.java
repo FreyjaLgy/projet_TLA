@@ -56,8 +56,6 @@ public class AnalyseSyntaxique {
 	 * On crée une liste de Lieu, et à chaque fois que l'on trouve un intVal suivi d'un tiret, on ajoute un lieu à cette liste.*/
 	
 	public HashMap<Integer, Lieu> S() {
-		//production S => Lieu | E
-		
 		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
@@ -91,8 +89,6 @@ public class AnalyseSyntaxique {
 	 */
 	
 	public Lieu Lieu() {
-		//production Lieu => intVal-*stringVal*Num
-		
 		Lieu lieu = null;
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 				
@@ -123,7 +119,6 @@ public class AnalyseSyntaxique {
 	 */
 	
 	public List<Proposition> Num() {
-		//production Num => intVal) Propo A A’
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
@@ -152,7 +147,6 @@ public class AnalyseSyntaxique {
 	
 	
 	public String Proposition() {
-		//production Propo => *stringVal A’
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
 		
@@ -170,7 +164,6 @@ public class AnalyseSyntaxique {
 	 */
 	
 	public String A() {
-		//production A => *[intval]
 		String numLieu = null;
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
@@ -196,7 +189,6 @@ public class AnalyseSyntaxique {
 	 */
 	
 	public void A_prime() {
-		//production A’ =>*intVal) Propo
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
 			if (getTypeDeToken() == TypeDeToken.intVal) {

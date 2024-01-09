@@ -42,7 +42,7 @@ public class App implements ActionListener {
     ArrayList<JButton> btns;
 
     //ATTENTION : PENSER A ADAPTER LE CHEMIN DU FICHIER.
-    String cheminFichier = "C:\\Users\\freya\\Desktop\\doc\\Cours\\L3\\TLA\\Projet_TLA\\src\\tla\\scenario_prof.txt";
+    String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
 
     public static void main(String[] args) {
         App app = new App();
