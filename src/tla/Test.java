@@ -7,7 +7,8 @@ public class Test {
 
 	public static void main(String[] args) {
 		testAnalyseLexicale("1-*Chambre 5desefqse.*1)*Ranger3fdqed*[1]" +
-				"1)*mange tes morts*Morts*+1PV*(PV>5)PV<10||PV<4*[2]");
+				"1)*mange tes morts*Morts*+1PV*PV>5&&PV<10*[2]*" +
+				"2)*Test**-1PV*Random>10&&(PV>5||PV<2)*[2]");
 	}
 
 	/*

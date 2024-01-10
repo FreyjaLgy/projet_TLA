@@ -1,41 +1,41 @@
-0-*Le mystÃ¨re de la statue maudite*
+0-*Le mystère de la statue maudite*
 
 1-*Vous reprenez conscience.
-Vous Ãªtes dans un souterrain en partie Ã©boulÃ©.
-L'un des bouts de souterrain se prolonge au-delÃ  de la portÃ©e de votre lampe;
-Tout prÃ¨s de vous, des pierres et des gravats bloquent entiÃ¨rement le passage.
-Il faut maintenant sortir de lÃ  !*
+Vous êtes dans un souterrain en partie éboulé.
+L'un des bouts de souterrain se prolonge au-delà de la portée de votre lampe;
+Tout près de vous, des pierres et des gravats bloquent entièrement le passage.
+Il faut maintenant sortir de là !*
 
-1)*Tentez-vous de dÃ©gager l'Ã©boulement pour Ã©ventuellement ressortir par oÃ¹ vous Ãªtes entrÃ© ?*[13]*
+1)*Tentez-vous de dégager l'éboulement pour éventuellement ressortir par où vous êtes entré ?*[13]*
 2)*Explorez-vous le souterrain dans l'autre direction ?*[9]*
 
 
-6-*Au bout de quelques vingt ou trente mÃ¨tres, le couloir se termine en cul-de-sac Ã  cause d'un Ã©boulement.*
+6-*Au bout de quelques vingt ou trente mètres, le couloir se termine en cul-de-sac à cause d'un éboulement.*
 
 3)*Faites-vous demi-tour ?*[27]*
-4)*DÃ©cidez-vous de vous frayez un passage Ã  travers les gravats ?*[16]*
+4)*Décidez-vous de vous frayez un passage à travers les gravats ?*[16]*
 
-9-*Quelque vingt mÃ¨tres plus loin, vous arrivez au pied d'un escalier.|
+9-*Quelque vingt mètres plus loin, vous arrivez au pied d'un escalier.
 Que faites-vous ?*
 
 5)*Vous examinez la fresque ?*[20]*
 6)*Vous empruntez le couloir en face de l'escalier ?*[18]*
-7)*Vous tournez Ã  droite pour explorer le prolongement de la salle ?*[2]*
+7)*Vous tournez à droite pour explorer le prolongement de la salle ?*[2]*
 
-13-*L'Ã©boulement est rÃ©cent, et les gravats instables.|
-Dans un soudain nuage de poussiÃ¨re, une pluie de pierres vous ensevelit.|
-Perdez 2 points de survie. Si vous pouvez les dÃ©penser, vous vous dÃ©gagez de la nouvelle avalanche.|
-Quelle est ensuite votre dÃ©cision ?*
+13-*L'éboulement est récent, et les gravats instables.
+Dans un soudain nuage de poussière, une pluie de pierres vous ensevelit.
+Perdez 2 points de survie. Si vous pouvez les dépenser, vous vous dégagez de la nouvelle avalanche.
+Quelle est ensuite votre décision ?*
 
-8)*Vous continuez Ã  tenter de dÃ©blayer ?*[17]*
-9)*Vous abandonnez et commencez Ã  explorer le couloir dans l'autre sens ?*[9]*
+8)*Vous continuez à tenter de déblayer ?*[17]*
+9)*Vous abandonnez et commencez à explorer le couloir dans l'autre sens ?*[9]*
 
-17-*Une nouvelle avalanche de gravats se dÃ©verse sur vous.*
+17-*Une nouvelle avalanche de gravats se déverse sur vous.*
 
-10)*Vous continuez cÃ´te que cÃ´te Ã  dÃ©blayer ?*[13]*
-11)*Vous baissez les bras et commencez Ã  explorer le couloir dans l'autre sens ?*[9]*
+10)*Vous continuez côte que côte à déblayer ?*[13]*
+11)*Vous baissez les bras et commencez à explorer le couloir dans l'autre sens ?*[9]*
 
-18-*Une quinzaine de mÃ¨tre plus loin, le couloir est creusÃ© de deux alcÃ´ves*
+18-*Une quinzaine de mètre plus loin, le couloir est creusé de deux alcôves*
 
-12)*Vous les examinez de prÃ¨s ?*[11]*
+12)*Vous les examinez de près ?*[11]*
 13)*Vous continuez votre chemin ?*[6]
