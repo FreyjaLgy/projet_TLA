@@ -10,7 +10,7 @@ public class testAnalyseSyntaxique {
 
 	public static void main(String[] args) {
 		testAnalyseSyntaxique("1-*Jardin*"
-				+ "6)*Prendre la fleur par terre.**+1pv*pv>2||pv<5*[1]");
+				+ "1)*Prendre la fleur par terre.****[1]*");
 	}
 
 	/*
@@ -33,6 +33,8 @@ public class testAnalyseSyntaxique {
 
 			AnalyseSyntaxique as = new AnalyseSyntaxique();
 			
+			System.out.println("Nombre de pv = " + as.getPV());
+			
 			HashMap<Integer, Lieu> listeLieux = as.analyse(listToken);
 			
 			Iterator iterator = listeLieux.entrySet().iterator();
@@ -50,6 +52,8 @@ public class testAnalyseSyntaxique {
 					}
 				}
 			} 
+			
+			System.out.println("Nombre de pv = " + AnalyseSyntaxique.getPV());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

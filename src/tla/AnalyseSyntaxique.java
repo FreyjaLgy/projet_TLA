@@ -8,6 +8,8 @@ public class AnalyseSyntaxique {
 
 	private List<Token> tokens;
 	private int pos;
+	private static int PV = 0;
+
 
 	/**Méthode permettant d'obtenir le type de token à lire.*/	
 	
@@ -131,11 +133,11 @@ public class AnalyseSyntaxique {
 			
 			String contenuProposition = Propo();
 			
-			Objet();
+			int bonusMalus = Objet();
 			
 			String numLieu = A();
 			int idLieu = Integer.parseInt(numLieu);
-			Proposition proposition = new Proposition(contenuProposition, idLieu);
+			Proposition proposition = new Proposition(contenuProposition, idLieu, bonusMalus);
 			
 			listePropositions.add(proposition);	
 			
@@ -168,7 +170,7 @@ public class AnalyseSyntaxique {
 	}
 	
 	
-	private void Objet() {
+	private int Objet() {
 		//Objet → *Nom*Effet*Condition
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
@@ -181,16 +183,19 @@ public class AnalyseSyntaxique {
 				System.out.print("nomObjet*");
 				lireToken();
 					
-				Effet();
+				int bonusMalus = Effet();
 					
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
 					System.out.print("Effet*");
 					lireToken();
 						
 					Condition();
+					
+					return bonusMalus;
 				}
 			}
 		}
+		return 0;
 	}
 	
 	private void Nom() {
@@ -202,16 +207,32 @@ public class AnalyseSyntaxique {
 	}
 	
 	
-	private void Effet() {
+	private int Effet() {
 		//Effet → Signe intVal Identifiant’
+		
+		int bonusMalus = 0;
 		
 		Signe();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
-			lireToken();
+			Token points = lireToken();
+			int nbPoints =  Integer.parseInt(points.getValeur());
+			
+			pos -=2;
+			if (getTypeDeToken() == TypeDeToken.plus) {
+				bonusMalus = nbPoints;
+			}
+			
+			if (getTypeDeToken() == TypeDeToken.tiret) {
+				bonusMalus = -nbPoints;
+			}
+			pos +=2;
+			
 			
 			Identifiant_prime();
 		}
+		
+		return bonusMalus;
 	}
 	
 	
@@ -361,6 +382,11 @@ public class AnalyseSyntaxique {
 		this.tokens = tokens;
 		
 		return S();
+	}
+	
+	
+	public static int getPV() {
+		return PV;
 	}
 	
 }

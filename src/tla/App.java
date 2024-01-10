@@ -25,6 +25,9 @@ import java.util.List;
  */
 
 public class App implements ActionListener {
+	
+	//Nombre de points de vie.
+    PointsVie PV = new PointsVie();
 
     // Nombre de lignes dans la zone de texte
     final int nbLignes = 20;
@@ -42,7 +45,7 @@ public class App implements ActionListener {
     ArrayList<JButton> btns;
 
     //ATTENTION : PENSER A ADAPTER LE CHEMIN DU FICHIER.
-    String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
+    String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\Projet\\projet_TLA\\src\\tla\\scenario_test.txt";
 
     public static void main(String[] args) {
         App app = new App();
@@ -72,7 +75,15 @@ public class App implements ActionListener {
         frame.add(mainPanel);
 
         for (int i = 0; i < nbLignes; i++) {
-            labels[i] = new JLabel(" ");
+        	//Ajout pour afficher le nb de pv.
+        	String affichageAvantLieu = " ";
+        	if (i == (nbLignes - 1)) {
+        		int nbPV = PV.getPV();
+        		affichageAvantLieu = String.valueOf(nbPV);
+        	}
+        	//Fin ajout
+        	
+            labels[i] = new JLabel(affichageAvantLieu);
             mainPanel.add(labels[i], new GridBagConstraints() {{
                 this.gridwidth = GridBagConstraints.REMAINDER;
                 this.anchor = GridBagConstraints.WEST;
@@ -134,6 +145,13 @@ public class App implements ActionListener {
 
             // Affiche la proposition qui vient d'Ãªtre choisie par le joueur
             affiche(new String[]{"> " + proposition.texte});
+            affiche(new String[]{"BonusMalus de la propo = " + String.valueOf(proposition.bonusMalus)});
+    		
+            int bonusMalus = proposition.bonusMalus;
+            PV.setPV(bonusMalus);
+            int nbPV = PV.getPV();
+            affiche(new String[]{"Nb PV = " + String.valueOf(nbPV)});
+            
 
             // Affichage du nouveau lieu et crÃ©ation des boutons des nouvelles propositions
             lieuActuel = lieu;

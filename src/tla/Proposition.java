@@ -8,9 +8,11 @@ package tla;
 public class Proposition {
     String texte;
     int numeroLieu;
+    int bonusMalus;
 
-    public Proposition(String texte, int numeroLieu) {
+    public Proposition(String texte, int numeroLieu, int bonusMalus) {
         this.texte = texte;
         this.numeroLieu = numeroLieu;
+        this.bonusMalus = bonusMalus;
     }
 }
