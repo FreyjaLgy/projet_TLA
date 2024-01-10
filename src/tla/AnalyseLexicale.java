@@ -8,13 +8,13 @@ public class AnalyseLexicale {
     Table de transition de l'analyse lexicale
      */
     private static Integer TRANSITIONS[][] = {
-            //           0    1    2       3            4              5     6     7    8    9   10    11  12
-            //           *    -    )    chiffre  lettre+caractères     [     ]     &    |    >    <    +    (
-            /*  0 */   {101, 102, 103,     1,           2,           106,  107,    3,   4, 110, 111, 112, 113},
-            /*  1 */   {104, 104, 104,     1,         104,           104,  104,  104, 104, 104, 104, 104, 104},
-            /*  2 */   {105,   2,   2,     2,           2,             2,    2,    2,   2,   2,   2,   2,   2}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
-            /*  3 */   {105,   2,   2,     2,           2,             2,    2,  108,   2,   2,   2,   2,   2}, //Ligne qui permet d'accepter &&
-            /*  4 */   {105,   2,   2,     2,           2,             2,    2,    2, 109,   2,   2,   2,   2}, //Ligne qui permet d'accepter ||
+            //           0    1    2       3            4              5     6     7    8    9   10    11  12    13
+            //           *    -    )    chiffre  lettre+caractères     [     ]     &    |    >    <    +    (   null
+            /*  0 */   {101, 102, 103,     1,           2,           106,  107,    3,   4, 110, 111, 112, 113,   0},
+            /*  1 */   {104, 104, 104,     1,         104,           104,  104,  104, 104, 104, 104, 104, 104, 104},
+            /*  2 */   {105,   2,   2,     2,           2,             2,    2,    2,   2,   2,   2,   2,   2, 105}, //Ligne qui sert à constituer un texte. On continue d'ajouter au texte sauf si il y a un *
+            /*  3 */   {105,   2,   2,     2,           2,             2,    2,  108,   2,   2,   2,   2,   2,   2}, //Ligne qui permet d'accepter &&
+            /*  4 */   {105,   2,   2,     2,           2,             2,    2,    2, 109,   2,   2,   2,   2,   2}, //Ligne qui permet d'accepter ||
 
             // 101 acceptation d'un *
             // 102 acceptation d'un -
@@ -49,9 +49,10 @@ public class AnalyseLexicale {
         String buf = "";
         Integer etat = ETAT_INITIAL;
 
-        Character c = lireCaractere();
+        Character c;
         ;
-        while (c != null) {
+        do {
+            c = lireCaractere();
 
             Integer e = TRANSITIONS[etat][indiceSymbole(c)];
             if (e == null) {
@@ -70,20 +71,23 @@ public class AnalyseLexicale {
                     tokens.add(new Token(TypeDeToken.intVal, buf));
                     retourArriere();
                 } else if (e == 105) {
-                    //System.out.println("HOP HOP TEST :"+buf);
                     //Si les premiers mots d'un stringVal sont PV ou Random, ils sont identifiés comme des mots clés
                     if (buf.length() >= 2 && buf.substring(0, 2).equalsIgnoreCase("PV")) {
                         tokens.add(new Token(TypeDeToken.PV));
                         String reste = buf.substring(2, buf.length());
-                        AnalyseLexicale al=new AnalyseLexicale();
-                        List<Token> tokens2 = al.analyse(reste); //On réanalyse la partie restante
-                        tokens.addAll(tokens2); //Puis on ajoute à la liste des tokens le résultat de cette analyse
+                        if (reste.length() > 0) {
+                            AnalyseLexicale al = new AnalyseLexicale();
+                            List<Token> tokens2 = al.analyse(reste); //On réanalyse la partie restante
+                            tokens.addAll(tokens2); //Puis on ajoute à la liste des tokens le résultat de cette analyse
+                        }
                     } else if (buf.length() >= 6 && buf.substring(0, 6).equalsIgnoreCase("Random")) {
                         tokens.add(new Token(TypeDeToken.Random));
                         String reste = buf.substring(6, buf.length());
-                        AnalyseLexicale al=new AnalyseLexicale();
-                        List<Token> tokens2 = al.analyse(reste); //On réanalyse la partie restante
-                        tokens.addAll(tokens2);
+                        if (reste.length() > 0) {
+                            AnalyseLexicale al=new AnalyseLexicale();
+                            List<Token> tokens2 = al.analyse(reste); //On réanalyse la partie restante
+                            tokens.addAll(tokens2);
+                        }
                     } else {
                         tokens.add(new Token(TypeDeToken.stringVal, buf));
                     }
@@ -116,8 +120,7 @@ public class AnalyseLexicale {
                 // ajoute le symbole qui vient d'être examiné à buf
                 buf += c;
             }
-            c = lireCaractere();
-        }
+        } while (c != null);
         return tokens;
     }
 
@@ -144,7 +147,8 @@ public class AnalyseLexicale {
     retourne un indice identifiant soit un symbole, soit une classe de symbole
      */
     private static int indiceSymbole(Character c) throws IllegalCharacterException {
-        if (c == null || c == '*') return 0;
+        if (c == null) return 13;
+        if (c == '*') return 0;
         if (c == '-') return 1;
         if (c == ')') return 2;
         if (Character.isDigit(c)) return 3;
