@@ -10,7 +10,7 @@ public class testAnalyseSyntaxique {
 
 	public static void main(String[] args) {
 		testAnalyseSyntaxique("1-*Jardin*"
-				+ "1)*Prendre la fleur par terre.*Fleur*+1pv*pv > 5*[1]*");
+				+ "6)*Prendre la fleur par terre.**+1pv*pv>2||pv<5*[1]");
 	}
 
 	/*
@@ -42,7 +42,14 @@ public class testAnalyseSyntaxique {
 				System.out.print("Num lieu = " + mapentry.getKey() + " ; ");
 				Lieu lieu = (Lieu) mapentry.getValue();
 				System.out.println("description = " + lieu.description + " ; nb propo = " + lieu.propositions.size());
-			 } 
+				
+				if (lieu.propositions.size() != 0) {
+					for (int i = 0 ; i < lieu.propositions.size() ; i++) {
+						Proposition p = lieu.propositions.get(i);
+						System.out.println("Num = " + p.numeroLieu + "Text = " + p.texte);
+					}
+				}
+			} 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

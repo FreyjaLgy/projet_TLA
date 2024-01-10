@@ -72,13 +72,13 @@ public class AnalyseLexicale {
                 } else if (e == 105) {
                     //System.out.println("HOP HOP TEST :"+buf);
                     //Si les premiers mots d'un stringVal sont PV ou Random, ils sont identifiés comme des mots clés
-                    if (buf.length() >= 2 && (buf.substring(0, 2).equals("PV") || buf.substring(0, 2).equals("pv"))) {
+                    if (buf.length() >= 2 && buf.substring(0, 2).equalsIgnoreCase("PV")) {
                         tokens.add(new Token(TypeDeToken.PV));
                         String reste = buf.substring(2, buf.length());
                         AnalyseLexicale al=new AnalyseLexicale();
                         List<Token> tokens2 = al.analyse(reste); //On réanalyse la partie restante
                         tokens.addAll(tokens2); //Puis on ajoute à la liste des tokens le résultat de cette analyse
-                    } else if (buf.length() >= 6 && buf.substring(0, 6).equals("Random")) {
+                    } else if (buf.length() >= 6 && buf.substring(0, 6).equalsIgnoreCase("Random")) {
                         tokens.add(new Token(TypeDeToken.Random));
                         String reste = buf.substring(6, buf.length());
                         AnalyseLexicale al=new AnalyseLexicale();

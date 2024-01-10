@@ -56,27 +56,11 @@ public class AnalyseSyntaxique {
 	 * On crée une liste de Lieu, et à chaque fois que l'on trouve un intVal suivi d'un tiret, on ajoute un lieu à cette liste.*/
 	
 	private HashMap<Integer, Lieu> S() {
+		//S → Lieu
+		
 		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
 		
-		if (getTypeDeToken() == TypeDeToken.intVal) {
-			lireToken();
-
-			while (getTypeDeToken() == TypeDeToken.tiret) {
-				pos -= 1;
-				String numLieu = getValeurIntVal();
-				int numEndroit = Integer.parseInt(numLieu);
-				pos += 1;
-				
-				lireToken();
-				
-				Lieu endroit = Lieu();
-				
-				listeLieux.put(numEndroit, endroit);
-				
-				numLieu += 1;
-			}
-		}
-		return listeLieux;
+		return Lieu();
 	}
 	
 	
@@ -88,28 +72,42 @@ public class AnalyseSyntaxique {
 	 * 
 	 */
 	
-	private Lieu Lieu() {
+	private HashMap<Integer, Lieu> Lieu() {
+		//Lieu → intVal-*stringVal Num *S
+
 		Lieu lieu = null;
+		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
-				
-		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			System.out.print("-*");
+		
+		if (getTypeDeToken() == TypeDeToken.intVal) {
 			lireToken();
 			
-			if (getTypeDeToken() == TypeDeToken.stringVal) {
-				String description = lireToken().getValeur();
-						
+			while (getTypeDeToken() == TypeDeToken.tiret) {
+				pos -= 1;
+				String numLieu = getValeurIntVal();
+				int numEndroit = Integer.parseInt(numLieu);
+				pos += 1;
+				System.out.println("num lieu = " + numEndroit);
+				
+				lireToken();
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					System.out.print("lieu*");
+					System.out.print("-*");
 					lireToken();
-					listePropositions = Num();
-							
-					lieu = new Lieu(description, listePropositions);
+					if (getTypeDeToken() == TypeDeToken.stringVal) {
+						String description = lireToken().getValeur();
+						
+						listePropositions = Num();
+						
+						lireToken();
+						
+						lieu = new Lieu(description, listePropositions);
+						listeLieux.put(numEndroit, lieu);
+					}
 				}
 			}
 		}
 		
-		return lieu;
+		return listeLieux;
 	}
 	
 	
@@ -121,29 +119,30 @@ public class AnalyseSyntaxique {
 	 */
 	
 	private List<Proposition> Num() {
+		//Num → A’ Propo Objet A
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
-		if (getTypeDeToken() == TypeDeToken.intVal) {
+		A_prime();
+		
+		pos -= 1;
+		
+		while (getTypeDeToken() == TypeDeToken.parentheseDroite) {
 			lireToken();
 			
-			while (getTypeDeToken() == TypeDeToken.parentheseDroite) {				
-				lireToken();
-				
-				String contenuProposition = Proposition();
-				
-				//System.out.println("contenu propo = " + contenuProposition);
-				Objet();
-				
-				String numLieu = A();
-				int idLieu = Integer.parseInt(numLieu);
-				Proposition proposition = new Proposition(contenuProposition, idLieu);
-				
-				listePropositions.add(proposition);	
-				
-				A_prime();
-				
-			}
-		} 
+			String contenuProposition = Propo();
+			
+			Objet();
+			
+			String numLieu = A();
+			int idLieu = Integer.parseInt(numLieu);
+			Proposition proposition = new Proposition(contenuProposition, idLieu);
+			
+			listePropositions.add(proposition);	
+			
+			A_prime();
+
+			pos -= 1;
+		}
 		return listePropositions;
 	}
 	
@@ -154,7 +153,9 @@ public class AnalyseSyntaxique {
 	 */
 	
 	
-	private String Proposition() {
+	private String Propo() {
+		//Propo → *stringVal
+		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			System.out.print(")*");
 			lireToken();
@@ -167,16 +168,153 @@ public class AnalyseSyntaxique {
 	}
 	
 	
+	private void Objet() {
+		//Objet → *Nom*Effet*Condition
+		
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			System.out.print("contenuPropo*");
+			lireToken();
+			
+			Nom();
+				
+			if (getTypeDeToken() == TypeDeToken.delimiteur) {
+				System.out.print("nomObjet*");
+				lireToken();
+					
+				Effet();
+					
+				if (getTypeDeToken() == TypeDeToken.delimiteur) {
+					System.out.print("Effet*");
+					lireToken();
+						
+					Condition();
+				}
+			}
+		}
+	}
+	
+	private void Nom() {
+		//Nom → stringVal || Ɛ
+
+		if (getTypeDeToken() == TypeDeToken.stringVal) {
+			lireToken();
+		}		
+	}
+	
+	
+	private void Effet() {
+		//Effet → Signe intVal Identifiant’
+		
+		Signe();
+		
+		if (getTypeDeToken() == TypeDeToken.intVal) {
+			lireToken();
+			
+			Identifiant_prime();
+		}
+	}
+	
+	
+	private void Signe() {
+		//Signe → +
+		if (getTypeDeToken() == TypeDeToken.plus) {
+			lireToken();
+		}
+
+		//Signe → -
+		if (getTypeDeToken() == TypeDeToken.tiret) {
+			lireToken();
+		}
+	}
+	
+	private void Condition() {
+		//Condition → T
+		
+		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
+			T();
+		}
+		
+		
+		//Condition → (Condition)
+		
+		if (getTypeDeToken() == TypeDeToken.parentheseGauche) {
+			lireToken();
+			Condition();
+			
+			if (getTypeDeToken() == TypeDeToken.intVal) {
+				lireToken();
+			}
+			
+			if (getTypeDeToken() == TypeDeToken.parentheseDroite) {
+				lireToken();
+			}
+		}
+
+		
+		//Condition → Condition Op Condition
+		
+		if (getTypeDeToken() == TypeDeToken.intVal) {
+			lireToken();
+		}
+		
+		if ((getTypeDeToken() == TypeDeToken.ouLogique) || (getTypeDeToken() == TypeDeToken.etLogique)) {
+			lireToken();
+			
+			if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random) || (getTypeDeToken() == TypeDeToken.parentheseGauche)) {
+				Condition();
+			}
+		}
+		
+		
+
+		
+		
+	}
+	
+	private void T() {
+		//T → Identifiant > intVal | Identifiant < intVal
+		
+		Identifiant();
+			
+		if ((getTypeDeToken() == TypeDeToken.inferieur) || (getTypeDeToken() == TypeDeToken.superieur)) {
+			lireToken();
+		}
+		
+		
+		//T → Possède stringVal
+	}
+	
+	
+	private void Identifiant() {
+		//Identifiant → PV | Random
+		
+		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
+			lireToken();
+		}
+	}
+	
+
+	private void Identifiant_prime() {
+		//Identifiant’ → PV
+		
+		if (getTypeDeToken() == TypeDeToken.PV) {
+			lireToken();
+		}		
+	}
+
+	
+	
 	/**Méthode permettant de récupérer le numéro du lieu vers lequel une proposition renvoie.
 	 * 
 	 * On lit un delimiteur, un crocheGauche, un intVal et un crochetDroit. On renvoie la valeur de l'intVal.
 	 */
 	
 	private String A() {
+		//A → *[intval] Num
 		String numLieu = null;
 		
-		/*if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			System.out.print("libelle*");
+		if (getTypeDeToken() == TypeDeToken.delimiteur) {
+			System.out.print("condition*");
 			lireToken();
 			
 			if (getTypeDeToken() == TypeDeToken.crochetGauche) {
@@ -190,7 +328,8 @@ public class AnalyseSyntaxique {
 					}
 				}
 			
-		}}*/
+			}
+		}
 			
 		return numLieu ;
 	}
@@ -199,98 +338,19 @@ public class AnalyseSyntaxique {
 	 */
 	
 	private void A_prime() {
+		//A’ → *intVal)
+		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
 			if (getTypeDeToken() == TypeDeToken.intVal) {
 				lireToken();
-			}
-		}
-	}
-	
-	
-	private void Objet() {
-		//Objet => *stringVal*Effet*Condition || **Effet*Condition
-		
-		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			System.out.print("contenuPropo*");
-			lireToken();
-			
-			if (getTypeDeToken() == TypeDeToken.stringVal) {
-				lireToken();
-				
-				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					System.out.print("nomObjet*");
+				if (getTypeDeToken() == TypeDeToken.parentheseDroite) {
+					System.out.print("lecture a_prime");
 					lireToken();
-					
-					Effet();
-					
-					if (getTypeDeToken() == TypeDeToken.delimiteur) {
-						System.out.print("Effet*");
-						lireToken();
-						
-						Condition();
-					}
 				}
 			}
 		}
 	}
-	
-	
-	private void Effet() {
-		//Effet => Signe intVal Identifiant’ | Ɛ
-		
-		Signe();
-		
-		if (getTypeDeToken() == TypeDeToken.intVal) {
-			lireToken();
-			
-			Identifiant_prime();
-		}
-	}
-	
-	
-	private void Signe() {
-		//Signe => + | -
-		if (getTypeDeToken() == TypeDeToken.plus) {
-			lireToken();
-		}
-	}
-	
-	private void Condition() {
-		//Condition => T
-		
-		T();
-	}
-	
-	private void T() {
-		//T => Identifiant > intVal | Identifiant < intVal
-		
-		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			Identifiant();
-		}
-		
-		
-		//T => Possède stringVal
-	}
-	
-	
-	private void Identifiant() {
-		//Identifiant => PV | Random
-		
-		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			lireToken();
-		}
-	}
-	
-
-	private void Identifiant_prime() {
-		//Identifiant’ => PV
-		
-		if (getTypeDeToken() == TypeDeToken.PV) {
-			lireToken();
-		}		
-	}
-	
 	
 
 	/**Méthode retournant une map de Lieu créée à partir d'une liste de tokens.
