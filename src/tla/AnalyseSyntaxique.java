@@ -8,9 +8,9 @@ public class AnalyseSyntaxique {
 
 	private List<Token> tokens;
 	private int pos;
-	private static int PV = 0;
-
-
+	private int PV;
+	
+	
 	/**Méthode permettant d'obtenir le type de token à lire.*/	
 	
 	public TypeDeToken getTypeDeToken() {
@@ -89,11 +89,11 @@ public class AnalyseSyntaxique {
 				String numLieu = getValeurIntVal();
 				int numEndroit = Integer.parseInt(numLieu);
 				pos += 1;
-				System.out.println("num lieu = " + numEndroit);
+				//System.out.println("num lieu = " + numEndroit);
 				
 				lireToken();
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					System.out.print("-*");
+					//System.out.print("-*");
 					lireToken();
 					if (getTypeDeToken() == TypeDeToken.stringVal) {
 						String description = lireToken().getValeur();
@@ -159,7 +159,7 @@ public class AnalyseSyntaxique {
 		//Propo → *stringVal
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			System.out.print(")*");
+			//System.out.print(")*");
 			lireToken();
 		
 			if (getTypeDeToken() == TypeDeToken.stringVal) {
@@ -174,19 +174,19 @@ public class AnalyseSyntaxique {
 		//Objet → *Nom*Effet*Condition
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			System.out.print("contenuPropo*");
+			//System.out.print("contenuPropo*");
 			lireToken();
 			
 			Nom();
 				
 			if (getTypeDeToken() == TypeDeToken.delimiteur) {
-				System.out.print("nomObjet*");
+				//System.out.print("nomObjet*");
 				lireToken();
 					
 				int bonusMalus = Effet();
 					
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					System.out.print("Effet*");
+					//System.out.print("Effet*");
 					lireToken();
 						
 					Condition();
@@ -221,10 +221,12 @@ public class AnalyseSyntaxique {
 			pos -=2;
 			if (getTypeDeToken() == TypeDeToken.plus) {
 				bonusMalus = nbPoints;
+				PV += nbPoints;
 			}
 			
 			if (getTypeDeToken() == TypeDeToken.tiret) {
 				bonusMalus = -nbPoints;
+				PV -= nbPoints;
 			}
 			pos +=2;
 			
@@ -249,10 +251,12 @@ public class AnalyseSyntaxique {
 	}
 	
 	private void Condition() {
+		
+		
 		//Condition → T
 		
 		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			T();
+			Token[] tokenCondition = T();
 		}
 		
 		
@@ -287,31 +291,42 @@ public class AnalyseSyntaxique {
 		}
 		
 		
-
-		
-		
+		return tokenCondition +
 	}
 	
-	private void T() {
+	private Token[] T() {
 		//T → Identifiant > intVal | Identifiant < intVal
 		
-		Identifiant();
+		Token ident = Identifiant();
+		Token symbole = null;
 			
 		if ((getTypeDeToken() == TypeDeToken.inferieur) || (getTypeDeToken() == TypeDeToken.superieur)) {
-			lireToken();
+			symbole = lireToken();
 		}
 		
+		Token tokenCondition[] = new Token[2];
+		
+		tokenCondition[0] = ident;
+		tokenCondition[1] = symbole;
+		
+		return tokenCondition;
 		
 		//T → Possède stringVal
 	}
 	
 	
-	private void Identifiant() {
+	private Token Identifiant() {
 		//Identifiant → PV | Random
 		
 		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			lireToken();
+			Token t = lireToken();
+			
+			System.out.println("PV = " + getPV());
+			
+			return t;
 		}
+		
+		return null;
 	}
 	
 
@@ -320,7 +335,7 @@ public class AnalyseSyntaxique {
 		
 		if (getTypeDeToken() == TypeDeToken.PV) {
 			lireToken();
-		}		
+		}
 	}
 
 	
@@ -335,7 +350,7 @@ public class AnalyseSyntaxique {
 		String numLieu = null;
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			System.out.print("condition*");
+			//System.out.print("condition*");
 			lireToken();
 			
 			if (getTypeDeToken() == TypeDeToken.crochetGauche) {
@@ -366,7 +381,7 @@ public class AnalyseSyntaxique {
 			if (getTypeDeToken() == TypeDeToken.intVal) {
 				lireToken();
 				if (getTypeDeToken() == TypeDeToken.parentheseDroite) {
-					System.out.print("lecture a_prime");
+					//System.out.print("lecture a_prime");
 					lireToken();
 				}
 			}
@@ -385,8 +400,10 @@ public class AnalyseSyntaxique {
 	}
 	
 	
-	public static int getPV() {
+	public int getPV() {
 		return PV;
 	}
+	
+	
 	
 }

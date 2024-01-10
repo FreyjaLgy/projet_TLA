@@ -1,5 +1,7 @@
 package tla;
 
+import java.util.ArrayList;
+
 /*
  * Proposition faite au joueur pour poursuivre dans l'aventure.
  * 
@@ -9,10 +11,12 @@ public class Proposition {
     String texte;
     int numeroLieu;
     int bonusMalus;
+    ArrayList<Condition> conditions;
 
-    public Proposition(String texte, int numeroLieu, int bonusMalus) {
+    public Proposition(String texte, int numeroLieu, int bonusMalus, ArrayList<Condition> conditions) {
         this.texte = texte;
         this.numeroLieu = numeroLieu;
         this.bonusMalus = bonusMalus;
+        this.conditions = conditions;
     }
 }
