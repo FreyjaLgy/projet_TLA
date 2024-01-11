@@ -256,7 +256,11 @@ public class AnalyseSyntaxique {
 		//Condition → T
 		
 		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			Token[] tokenCondition = T();
+			T();
+			
+			
+			
+			
 		}
 		
 		
@@ -279,6 +283,7 @@ public class AnalyseSyntaxique {
 		//Condition → Condition Op Condition
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
+			System.out.print("intVal condition = ");
 			lireToken();
 		}
 		
@@ -290,43 +295,30 @@ public class AnalyseSyntaxique {
 			}
 		}
 		
-		
-		return tokenCondition +
 	}
 	
-	private Token[] T() {
+	private void T() {
 		//T → Identifiant > intVal | Identifiant < intVal
 		
-		Token ident = Identifiant();
+		Identifiant();
 		Token symbole = null;
 			
 		if ((getTypeDeToken() == TypeDeToken.inferieur) || (getTypeDeToken() == TypeDeToken.superieur)) {
 			symbole = lireToken();
 		}
 		
-		Token tokenCondition[] = new Token[2];
-		
-		tokenCondition[0] = ident;
-		tokenCondition[1] = symbole;
-		
-		return tokenCondition;
-		
 		//T → Possède stringVal
 	}
 	
 	
-	private Token Identifiant() {
+	private void Identifiant() {
 		//Identifiant → PV | Random
 		
 		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			Token t = lireToken();
+			lireToken();
 			
 			System.out.println("PV = " + getPV());
-			
-			return t;
 		}
-		
-		return null;
 	}
 	
 
