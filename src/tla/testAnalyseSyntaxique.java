@@ -11,8 +11,8 @@ public class testAnalyseSyntaxique {
 
 	public static void main(String[] args) {
 		testAnalyseSyntaxique("1-*Jardin*"
-							+ "1)*Prendre la fleur par terre.*Fleur*+1pv*(pv>5)||((random>2||random<8)&&random<9)*[1]*"
-							+ "2)*Le lutin maléfique apparaît.**-2pv*pv>5&&pv<7*[1]*");
+				+ "1)*Prendre la fleur par terre.*Fleur*+1pv*(pv>5)||((random>2||random<8)&&random<9)*[1]*"
+				+ "2)*Le lutin maléfique apparaît.**-2pv*pv>5&&pv<7*[1]*");
 		
 	}
 

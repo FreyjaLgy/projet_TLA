@@ -8,6 +8,7 @@ RÃ©alisÃ© par :
 
 */
 
+
 package tla;
 
 import javax.swing.*;
@@ -29,8 +30,8 @@ public class App implements ActionListener {
 	//Nombre de points de vie.
     PointsVie pv = new PointsVie();
     
-    //Nombre aléatoire.
-    int random = 1;
+    //Tirage aléatoire d'un dé.
+    int valeurDe = 1;
 
     // Nombre de lignes dans la zone de texte
     final int nbLignes = 20;
@@ -48,7 +49,7 @@ public class App implements ActionListener {
     ArrayList<JButton> btns;
 
     //ATTENTION : PENSER A ADAPTER LE CHEMIN DU FICHIER.
-    String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\Projet\\projet_TLA\\src\\tla\\scenario_test.txt";
+    String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\Projet\\projet_TLA\\src\\tla\\scenario_final.txt";
 
     public static void main(String[] args) {
         App app = new App();
@@ -78,7 +79,7 @@ public class App implements ActionListener {
         frame.add(mainPanel);
 
         for (int i = 0; i < nbLignes; i++) {
-        	//Ajout.
+        	//Ajout : permet d'afficher le paragraphe à propos du dé.
         	String affichageAvantLieu = " ";
         	if (i == (nbLignes - 4)) {
         		affichageAvantLieu = "En parallèle de votre aventure, un dé est lancé à chaque choix que vous faites.";
@@ -87,7 +88,7 @@ public class App implements ActionListener {
         		affichageAvantLieu = "En fonction du score qu'il renvoie, certaines propositions peuvent apparaître ou disparaître.";
         	}
         	if (i == (nbLignes - 1)) {
-        		affichageAvantLieu = "Valeur du dé = " + random;
+        		affichageAvantLieu = "Valeur du dé = " + valeurDe;
         	}
         	//Fin ajout.
         	
@@ -122,30 +123,46 @@ public class App implements ActionListener {
         String test = lieuActuel.description;
         affiche(test.split("\\|"));
         frame.pack();
+        
+        //Modification : permet de gérer les conditions.
         for (int i = 0; i < lieuActuel.propositions.size(); i++) {
         	Proposition p = lieuActuel.propositions.get(i);
         	
         	ArrayList<Condition> conditions = p.getConditions();
         	
-        	boolean conditionsValidees = testConditions(conditions);
-        		
-        	if (conditionsValidees) {
-	        JButton btn = new JButton("<html><p>" + lieuActuel.propositions.get(i).texte + "</p></html>");
-	        btn.setActionCommand(String.valueOf(i));
-	        btn.addActionListener(this);
-	        mainPanel.add(btn, new GridBagConstraints() {{
-	        	this.gridwidth = GridBagConstraints.REMAINDER;
-	        	this.fill = GridBagConstraints.HORIZONTAL;
-	        	this.insets = new Insets(3, 20, 3, 20);
-	        }});
-	        btns.add(btn);
+        	System.out.println(conditions);
         	
-	        random = (int)(1 + (Math.random() * (7 - 1)));
+        	if (conditions.size() == 0) {
+        		creerBouton(i);
         	}
-        	
+        	else {
+        		boolean conditionsValidees = testConditions(conditions);
+        		
+            	if (conditionsValidees) {
+            		creerBouton(i);
+            	}        		
+        	}
         }
         frame.pack();
+        
+        //Ajout : permet de lancer le dé.
+        valeurDe = (int)(1 + (Math.random() * (7 - 1)));
     }
+    
+    
+    public void creerBouton(int i) {
+        JButton btn = new JButton("<html><p>" + lieuActuel.propositions.get(i).texte + "</p></html>");
+        btn.setActionCommand(String.valueOf(i));
+        btn.addActionListener(this);
+        mainPanel.add(btn, new GridBagConstraints() {{
+        	this.gridwidth = GridBagConstraints.REMAINDER;
+        	this.fill = GridBagConstraints.HORIZONTAL;
+        	this.insets = new Insets(3, 20, 3, 20);
+        }});
+        btns.add(btn);
+    	
+    }
+    
 
     /*
      * GÃ¨re les clics sur les boutons de propostion
@@ -165,7 +182,7 @@ public class App implements ActionListener {
             // Affiche la proposition qui vient d'Ãªtre choisie par le joueur
             affiche(new String[]{"> " + proposition.texte});
             
-            affiche(new String[]{"Valeur du dé = " + random});
+            affiche(new String[]{"Valeur du dé = " + valeurDe});
             affiche(new String[]{"BonusMalus de la propo = " + String.valueOf(proposition.bonusMalus)});
     		
             int bonusMalus = proposition.bonusMalus;
@@ -320,7 +337,7 @@ public class App implements ActionListener {
     	//Si la condition commence par : random <
 		if (symbole == TypeDeToken.inferieur) {
 			//Si random > val, autrement dit que la condition random < n'est pas respectée :
-			if (random > val) {
+			if (valeurDe > val) {
 				return false;
 			}
 		}
@@ -328,7 +345,7 @@ public class App implements ActionListener {
 		//Si la condition commence par : random >
 		if (symbole == TypeDeToken.superieur) {
 			//Si random < val, autrement dit que la condition random > n'est pas respectée :
-			if (random < val) {
+			if (valeurDe < val) {
 				return false;
 			}
 		}
