@@ -150,6 +150,12 @@ public class App implements ActionListener {
     }
     
     
+    /**Méthode permettant de créer un bouton associé à une proposition.
+     * 
+     * @param i : index correspondant à la ième proposition du lieu.
+     */
+    
+    
     public void creerBouton(int i) {
         JButton btn = new JButton("<html><p>" + lieuActuel.propositions.get(i).texte + "</p></html>");
         btn.setActionCommand(String.valueOf(i));
@@ -182,6 +188,9 @@ public class App implements ActionListener {
             // Affiche la proposition qui vient d'Ãªtre choisie par le joueur
             affiche(new String[]{"> " + proposition.texte});
             
+            
+            //Ajout : permet d'afficher la valeur du dé, le nombre de points gagnés ou perdus suite au choix de proposition 
+            //et le nombre de points de vie à jour.
             affiche(new String[]{"Valeur du dé = " + valeurDe});
             affiche(new String[]{"BonusMalus de la propo = " + String.valueOf(proposition.bonusMalus)});
     		
@@ -189,6 +198,7 @@ public class App implements ActionListener {
             pv.setPV(bonusMalus);
             int nbPV = pv.getPV();
             affiche(new String[]{"Points de vie = " + String.valueOf(nbPV)});
+            //Fin d'ajout.
             
 
             // Affichage du nouveau lieu et crÃ©ation des boutons des nouvelles propositions
@@ -255,6 +265,10 @@ public class App implements ActionListener {
     }
     
     
+    /*Méthode permettant de vérifier si les conditions d'une proposition sont respectées.
+     * 
+     */
+    
     private boolean testConditions(ArrayList<Condition> conditions) {
     	ArrayList<Boolean> conditionsValidees = new ArrayList<Boolean>();
     	
@@ -312,6 +326,10 @@ public class App implements ActionListener {
     }
     
     
+    /*Méthode permettant de vérifier si les conditions commençant par "PV" sont respectées.
+     * 
+     */
+    
     public boolean testPV(TypeDeToken symbole, int val) {
     	//Si la condition commence par : PV <
 		if (symbole == TypeDeToken.inferieur) {
@@ -332,6 +350,10 @@ public class App implements ActionListener {
 		return true;
     }
     
+    
+    /*Méthode permettant de vérifier si les conditions commençant par "random" sont respectées.
+     * 
+     */
     
     public boolean testRandom(TypeDeToken symbole, int val) {
     	//Si la condition commence par : random <

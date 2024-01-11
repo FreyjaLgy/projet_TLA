@@ -1,4 +1,0 @@
-0-*Blabla*
-1-*Jardin*
-1)*Prendre la fleur par terre.*Fleur***[1]*
-2)*Le lutin malefique apparait.**-2pv*random>1*[1]

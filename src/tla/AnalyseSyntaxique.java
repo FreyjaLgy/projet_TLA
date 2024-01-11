@@ -55,29 +55,23 @@ public class AnalyseSyntaxique {
 	}
 
 
-	/**Méthode permettant de créer une HashMap de Lieu.
+	/**Méthode correspondant à la production S → Lieu
 	 * 
-	 * On crée une liste de Lieu, et à chaque fois que l'on trouve un intVal suivi d'un tiret, on ajoute un lieu à cette liste.*/
+	 */
 	
 	private HashMap<Integer, Lieu> S() {
-		//S → Lieu
-		
 		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
 		
 		return Lieu();
 	}
 	
 	
-	/**Méthode permettant de créer un Lieu.
-	 * 
-	 *On lit un delimiteur, un stringVal (la description du lieu), puis un autre delimiteur.
-	 *On cherche ensuite les propositions associées au lieu.
-	 *Enfin, on crée le lieu.
+	/**Méthode correspondant à la production Lieu → intVal-*stringVal Num *S
 	 * 
 	 */
 	
 	private HashMap<Integer, Lieu> Lieu() {
-		//Lieu → intVal-*stringVal Num *S
+		//
 
 		Lieu lieu = null;
 		HashMap<Integer, Lieu> listeLieux = new HashMap<Integer, Lieu>();
@@ -91,11 +85,10 @@ public class AnalyseSyntaxique {
 				String numLieu = getValeurIntVal();
 				int numEndroit = Integer.parseInt(numLieu);
 				pos += 1;
-				//System.out.println("num lieu = " + numEndroit);
 				
 				lireToken();
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					//System.out.print("-*");
+
 					lireToken();
 					if (getTypeDeToken() == TypeDeToken.stringVal) {
 						String description = lireToken().getValeur();
@@ -115,15 +108,11 @@ public class AnalyseSyntaxique {
 	}
 	
 	
-	/**Méthode permettant de créer une liste de propositions.
+	/**Méthode correspondant à la production Num → A’ Propo Objet A
 	 * 
-	 * On crée une liste de propositions, et à chaque fois que l'on trouve un intVal et une parentheseDroite, on récupère le contenu de la
-	 * proposition et le numéro du lieu vers lequel elle renvoie.
-	 * A partir de là, on crée une proposition qu'on ajoute à la liste.
 	 */
 	
 	private List<Proposition> Num() {
-		//Num → A’ Propo Objet A
 		List<Proposition> listePropositions = new ArrayList<Proposition>();
 		
 		A_prime();
@@ -143,13 +132,6 @@ public class AnalyseSyntaxique {
 			int idLieu = Integer.parseInt(numLieu);
 			Proposition proposition = new Proposition(contenuProposition, idLieu, bonusMalus, conditions);
 			
-			//A supp
-			ArrayList<Condition> cond = proposition.getConditions();
-			
-			System.out.println("Nb conditions = " + cond.size());
-			
-			//System.out.println("Condition : ident = " + c.getIdent() + " ; symbole = " + c.getSymbole() + " ; val = " + c.getVal());
-			
 			listePropositions.add(proposition);	
 			
 			A_prime();
@@ -160,17 +142,13 @@ public class AnalyseSyntaxique {
 	}
 	
 	
-	/**Méthode permettant de récupérer le contenu d'une proposition.
+	/**Méthode correspondant à la production Propo → *stringVal
 	 * 
-	 * On lit un delimiteur et on renvoie la valeur du stringVal qui suit.
 	 */
 	
 	
 	private String Propo() {
-		//Propo → *stringVal
-		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			//System.out.print(")*");
 			lireToken();
 		
 			if (getTypeDeToken() == TypeDeToken.stringVal) {
@@ -181,23 +159,22 @@ public class AnalyseSyntaxique {
 	}
 	
 	
+	/**Méthode correspondant à la production Objet → *Nom*Effet*Condition
+	 * 
+	 */
+	
 	private void Objet() {
-		//Objet → *Nom*Effet*Condition
-		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			//System.out.print("contenuPropo*");
 			lireToken();
 			
 			Nom();
 				
 			if (getTypeDeToken() == TypeDeToken.delimiteur) {
-				//System.out.print("nomObjet*");
 				lireToken();
 					
 				Effet();
 					
 				if (getTypeDeToken() == TypeDeToken.delimiteur) {
-					//System.out.print("Effet*");
 					lireToken();
 						
 					Condition();
@@ -206,18 +183,22 @@ public class AnalyseSyntaxique {
 		}
 	}
 	
+	/**Méthode correspondant à la production Nom → stringVal || Ɛ
+	 * 
+	 */
+	
 	private void Nom() {
-		//Nom → stringVal || Ɛ
-
 		if (getTypeDeToken() == TypeDeToken.stringVal) {
 			lireToken();
 		}		
 	}
 	
 	
+	/**Méthode correspondant à la production Effet → Signe intVal Identifiant’
+	 * 
+	 */
+	
 	private void Effet() {
-		//Effet → Signe intVal Identifiant’
-		
 		Signe();
 		
 		if (getTypeDeToken() == TypeDeToken.intVal) {
@@ -242,6 +223,10 @@ public class AnalyseSyntaxique {
 	}
 	
 	
+	/**Méthode correspondant à la production Signe → + | -
+	 * 
+	 */
+	
 	private void Signe() {
 		//Signe → +
 		if (getTypeDeToken() == TypeDeToken.plus) {
@@ -254,11 +239,14 @@ public class AnalyseSyntaxique {
 		}
 	}
 	
+	/**Méthode correspondant à la production Condition → (Condition) | Condition Op Condition | T
+	 * 
+	 */
+	
 	private void Condition() {
 		//Condition → T
 		
 		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
-			System.out.println("entree");
 			T();
 			
 			//Créer une condition.
@@ -277,10 +265,6 @@ public class AnalyseSyntaxique {
 			}
 			
 			Condition c = new Condition(ident, symbole, val, operateur);
-			
-			System.out.println("Condition : ident = " + ident
-			+ " ; symbole = " + symbole
-			+ " ; val = " + val);
 			
 			conditions.add(c);
 			
@@ -314,9 +298,11 @@ public class AnalyseSyntaxique {
 			}
 		}
 		
-		System.out.println("Nb conditions dans liste = " + conditions.size());
-		
 	}
+	
+	/**Méthode correspondant à la production T → Identifiant > intVal | Identifiant < intVal | Possède stringVal
+	 * 
+	 */
 	
 	private void T() {
 		//T → Identifiant > intVal | Identifiant < intVal
@@ -328,7 +314,6 @@ public class AnalyseSyntaxique {
 			symbole = lireToken();
 
 			if (getTypeDeToken() == TypeDeToken.intVal) {
-				System.out.print("intVal condition = ");
 				lireToken();
 			}
 			
@@ -338,18 +323,22 @@ public class AnalyseSyntaxique {
 	}
 	
 	
+	/**Méthode correspondant à la production Identifiant → PV | Random
+	 * 
+	 */
+	
 	private void Identifiant() {
-		//Identifiant → PV | Random
-		
 		if ((getTypeDeToken() == TypeDeToken.PV) || (getTypeDeToken() == TypeDeToken.Random)) {
 			lireToken();
 		}
 	}
 	
 
+	/**Méthode correspondant à la production Identifiant’ → PV
+	 * 
+	 */
+	
 	private void Identifiant_prime() {
-		//Identifiant’ → PV
-		
 		if (getTypeDeToken() == TypeDeToken.PV) {
 			lireToken();
 		}
@@ -357,17 +346,14 @@ public class AnalyseSyntaxique {
 
 	
 	
-	/**Méthode permettant de récupérer le numéro du lieu vers lequel une proposition renvoie.
+	/**Méthode correspondant à la production A → *[intval] Num
 	 * 
-	 * On lit un delimiteur, un crocheGauche, un intVal et un crochetDroit. On renvoie la valeur de l'intVal.
 	 */
 	
 	private String A() {
-		//A → *[intval] Num
 		String numLieu = null;
 		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
-			//System.out.print("condition*");
 			lireToken();
 			
 			if (getTypeDeToken() == TypeDeToken.crochetGauche) {
@@ -387,18 +373,16 @@ public class AnalyseSyntaxique {
 		return numLieu ;
 	}
 	
-	/**Méthode permettant de lire le delimiteur et l'intVal qui précède le contenu d'une proposition. 
+	/**Méthode correspondant à la production A’ → *intVal)
+	 * 
 	 */
 	
 	private void A_prime() {
-		//A’ → *intVal)
-		
 		if (getTypeDeToken() == TypeDeToken.delimiteur) {
 			lireToken();
 			if (getTypeDeToken() == TypeDeToken.intVal) {
 				lireToken();
 				if (getTypeDeToken() == TypeDeToken.parentheseDroite) {
-					//System.out.print("lecture a_prime");
 					lireToken();
 				}
 			}
