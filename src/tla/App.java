@@ -27,7 +27,10 @@ import java.util.List;
 public class App implements ActionListener {
 	
 	//Nombre de points de vie.
-    PointsVie PV = new PointsVie();
+    PointsVie pv = new PointsVie();
+    
+    //Nombre aléatoire.
+    int random = 1;
 
     // Nombre de lignes dans la zone de texte
     final int nbLignes = 20;
@@ -75,13 +78,18 @@ public class App implements ActionListener {
         frame.add(mainPanel);
 
         for (int i = 0; i < nbLignes; i++) {
-        	//Ajout pour afficher le nb de pv.
+        	//Ajout.
         	String affichageAvantLieu = " ";
-        	if (i == (nbLignes - 1)) {
-        		int nbPV = PV.getPV();
-        		affichageAvantLieu = String.valueOf(nbPV);
+        	if (i == (nbLignes - 4)) {
+        		affichageAvantLieu = "En parallèle de votre aventure, un dé est lancé à chaque choix que vous faites.";
         	}
-        	//Fin ajout
+        	if (i == (nbLignes - 3)) {
+        		affichageAvantLieu = "En fonction du score qu'il renvoie, certaines propositions peuvent apparaître ou disparaître.";
+        	}
+        	if (i == (nbLignes - 1)) {
+        		affichageAvantLieu = "Valeur du dé = " + random;
+        	}
+        	//Fin ajout.
         	
             labels[i] = new JLabel(affichageAvantLieu);
             mainPanel.add(labels[i], new GridBagConstraints() {{
@@ -115,15 +123,26 @@ public class App implements ActionListener {
         affiche(test.split("\\|"));
         frame.pack();
         for (int i = 0; i < lieuActuel.propositions.size(); i++) {
-            JButton btn = new JButton("<html><p>" + lieuActuel.propositions.get(i).texte + "</p></html>");
-            btn.setActionCommand(String.valueOf(i));
-            btn.addActionListener(this);
-            mainPanel.add(btn, new GridBagConstraints() {{
-                this.gridwidth = GridBagConstraints.REMAINDER;
-                this.fill = GridBagConstraints.HORIZONTAL;
-                this.insets = new Insets(3, 20, 3, 20);
-            }});
-            btns.add(btn);
+        	Proposition p = lieuActuel.propositions.get(i);
+        	
+        	ArrayList<Condition> conditions = p.getConditions();
+        	
+        	boolean conditionsValidees = testConditions(conditions);
+        		
+        	if (conditionsValidees) {
+	        JButton btn = new JButton("<html><p>" + lieuActuel.propositions.get(i).texte + "</p></html>");
+	        btn.setActionCommand(String.valueOf(i));
+	        btn.addActionListener(this);
+	        mainPanel.add(btn, new GridBagConstraints() {{
+	        	this.gridwidth = GridBagConstraints.REMAINDER;
+	        	this.fill = GridBagConstraints.HORIZONTAL;
+	        	this.insets = new Insets(3, 20, 3, 20);
+	        }});
+	        btns.add(btn);
+        	
+	        random = (int)(1 + (Math.random() * (7 - 1)));
+        	}
+        	
         }
         frame.pack();
     }
@@ -145,12 +164,14 @@ public class App implements ActionListener {
 
             // Affiche la proposition qui vient d'Ãªtre choisie par le joueur
             affiche(new String[]{"> " + proposition.texte});
+            
+            affiche(new String[]{"Valeur du dé = " + random});
             affiche(new String[]{"BonusMalus de la propo = " + String.valueOf(proposition.bonusMalus)});
     		
             int bonusMalus = proposition.bonusMalus;
-            PV.setPV(bonusMalus);
-            int nbPV = PV.getPV();
-            affiche(new String[]{"Nb PV = " + String.valueOf(nbPV)});
+            pv.setPV(bonusMalus);
+            int nbPV = pv.getPV();
+            affiche(new String[]{"Points de vie = " + String.valueOf(nbPV)});
             
 
             // Affichage du nouveau lieu et crÃ©ation des boutons des nouvelles propositions
@@ -214,6 +235,105 @@ public class App implements ActionListener {
         HashMap<Integer, Lieu> listeLieux = as.analyse(listToken);
 
         return listeLieux;
+    }
+    
+    
+    private boolean testConditions(ArrayList<Condition> conditions) {
+    	ArrayList<Boolean> conditionsValidees = new ArrayList<Boolean>();
+    	
+    	boolean valide = true;
+    	
+    	for (int i = 0 ; i < conditions.size() ; i++) {
+    		Condition c = conditions.get(i);
+    		TypeDeToken ident = c.getIdent();
+    		TypeDeToken symbole = c.getSymbole();
+    		int val = c.getVal();
+    		
+    		//Si la condition commence par : PV
+    		if (ident == TypeDeToken.PV) {
+    			boolean testConditionPV = testPV(symbole, val);
+    			conditionsValidees.add(testConditionPV);
+    		}
+    		
+    		if (ident == TypeDeToken.Random) {
+    			boolean testConditionRandom = testRandom(symbole, val);
+    			conditionsValidees.add(testConditionRandom);
+    		}
+    	}
+
+		boolean conditionGauche = conditionsValidees.get(0);
+		
+    	for (int i = 0 ; i < conditionsValidees.size() - 1 ; i++) {
+    		Condition c = conditions.get(i);
+    		TypeDeToken operateur = c.getOperateur();
+    		boolean conditionDroite = conditionsValidees.get(i + 1);
+    		
+    		//Si l'opérateur qui sépare les deux conditions est un OU, ...
+    		if (operateur == TypeDeToken.ouLogique) {
+    			if ((conditionGauche == true) || (conditionDroite == true)) {
+    				conditionGauche = true;
+    			}
+    		}
+
+    		
+    		//Si l'opérateur qui sépare les deux conditions est un ET, ...
+    		if (operateur == TypeDeToken.etLogique) {
+    			if ((conditionGauche == false) || (conditionDroite == false)) {
+    				conditionGauche = false;
+    			}
+    		} 		
+    		
+    	}
+    	
+    	valide = conditionGauche;
+    	
+    	
+    	System.out.println("les conditions sont validees : " + valide);
+    	
+    	
+    	return valide;
+    }
+    
+    
+    public boolean testPV(TypeDeToken symbole, int val) {
+    	//Si la condition commence par : PV <
+		if (symbole == TypeDeToken.inferieur) {
+			//Si PV > val, autrement dit que la condition PV < n'est pas respectée :
+			if (pv.getPV() > val) {
+				return false;
+			}
+		}
+		
+		//Si la condition commence par : PV >
+		if (symbole == TypeDeToken.superieur) {
+			//Si PV < val, autrement dit que la condition PV > n'est pas respectée :
+			if (pv.getPV() < val) {
+				return false;
+			}
+		}
+		
+		return true;
+    }
+    
+    
+    public boolean testRandom(TypeDeToken symbole, int val) {
+    	//Si la condition commence par : random <
+		if (symbole == TypeDeToken.inferieur) {
+			//Si random > val, autrement dit que la condition random < n'est pas respectée :
+			if (random > val) {
+				return false;
+			}
+		}
+		
+		//Si la condition commence par : random >
+		if (symbole == TypeDeToken.superieur) {
+			//Si random < val, autrement dit que la condition random > n'est pas respectée :
+			if (random < val) {
+				return false;
+			}
+		}
+		
+		return true;
     }
 
 

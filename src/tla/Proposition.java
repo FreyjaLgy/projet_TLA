@@ -11,13 +11,20 @@ public class Proposition {
     String texte;
     int numeroLieu;
     int bonusMalus;
-    //ArrayList<Condition> conditions;
+    ArrayList<Condition> conditions = null;
 
-    //public Proposition(String texte, int numeroLieu, int bonusMalus, ArrayList<Condition> conditions) {
-    public Proposition(String texte, int numeroLieu, int bonusMalus) {
+    public Proposition(String texte, int numeroLieu, int bonusMalus, ArrayList<Condition> conditions) {
+    //public Proposition(String texte, int numeroLieu, int bonusMalus) {
         this.texte = texte;
         this.numeroLieu = numeroLieu;
         this.bonusMalus = bonusMalus;
-        //this.conditions = conditions;
+        this.conditions = conditions;
     }
+
+	public ArrayList<Condition> getConditions() {
+		return conditions;
+	}
+
+    
+    
 }
