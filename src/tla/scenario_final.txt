@@ -1,0 +1,97 @@
+0-*La maison*
+
+1-*Vous vous éveillez dans votre chambre après un sommeil agité.|
+Cette nuit encore, les cauchemars vous tourmentent.|
+Il est 5h du matin, et tout semble calme dans la maison. Trop calme.|
+Vous auriez bien besoin de calmer vos nerfs pour retrouver le sommeil.*
+
+1)*Vous rendre dans le couloir****[2]*
+2)*Rester au lit****[3]*
+3)*Regarder dans le placard****[4]*
+
+2-*Le parquet est froid sous vos pieds. Dans le couloir, tout est sombre et silencieux mis à part le bruit de vos pas.*
+
+4)*Vous observez les cadres au mur****[5]*
+5)*Vous poursuivez vers la salle à manger****[6]*
+
+3-*Vous restez dans le lit. Des ombres dansent sur le mur vous faisant face.|
+C'est sûrement les feuilles derrière la fenêtre.|
+Votre stress monte.*
+
+6)*Vous changez d'avis et vous rendez dans le couloir****[2]*
+
+4-*Vous y trouvez quelques babioles ainsi que quelques pelotes de laine.*
+
+7)*Vous prenez une pelote de laine et vous rendez dans le couloir*Pelote***[2]*
+8)*Vous refermez le placard et vous rendez dans le couloir****[2]*
+9)*Vous prenez une vieille photo un peu froissée au fond du placard.*Photo**Random>2*[4]*
+
+5-*Toujours les mêmes photos depuis des années.|
+Vous les contemplez lentement unes à unes avant de vous arrêter devant votre préférée.|
+Vos dernières vacances en famille : vous faites tous face à la caméra, souriants.|
+Un cadre vide se trouve tout à droite.*
+
+10)*Vous reprenez votre chemin****[6]*
+11)*Vous prenez le temps de baigner dans vos souvenirs****[7]*
+12)*Vous replacez la photo dans le cadre***Photo*[7]*
+
+6-*Vos yeux sont maintenant habitués à l'obscurité vous entourant.|
+La cuisine est à quelques pas, mais le confort du canapé du salon vous tente.*
+
+13)*Vous entrez dans la cuisine****[8]*
+14)*Vous entrez dans le salon****[9]*
+
+7-*Vous laissez la nostalgie vous envahir, replongeant dans vos bons souvenirs pour chasser l'arrière-goût déplaisant|
+laissé par les cauchemars.*
+
+15)*Vous reprenez votre chemin****[6]*
+
+8-*Le carrelage de la cuisine est encore plus glacé que le parquet du reste de la maison.*
+
+16)*Vous vous faites un chocolat chaud**+1PV**[10]*
+17)*Vous vous servez un grand verre d'eau fraîche****[11]*
+18)*Vous devérouillez la porte vitrée et sortez dehors***Clé*[16]*
+
+9-*Vous vous installez dans le canapé à votre place habituelle, allumant la télévision dans la même foulée.|
+Vous vous saisissez d'un plaid pour vous emmitoufler, et cherchez une émission pour vous divertir.|
+Il semble que le reste de votre nuit va se dérouler ici.*
+
+19)*Vous observez votre petit chat surgir de sous la table***Pelotte*[13]*
+20)*Vous vous cognez le petit doigt de pied contre la table basse par mégarde**-10PV*PV>20&&Random>3*[15]*
+21)*Rejouer l'histoire****[1]*
+
+10-*Le chocolat chaud vous réchauffe et vous réconforte. Vous vous sentez déjà plus détendu.|
+Vous déposez la tasse dans l'évier.*
+
+22)*Vous retournez à la chambre****[12]*
+23)*Vous allez au salon****[9]*
+24)*Vous récupérez un objet scintillant dans l'évier, qu'est ce que ça fait là ?*Clé**Random>4*[14]*
+
+11-*C'est exactement ce dont vous aviez besoin pour satisfaire votre soif.*
+
+25)*Vous retournez à la chambre.****[12]*
+26)*Vous allez au salon****[9]*
+
+12-*Vous vous recouchez.|
+Un certain sentiment de malaise persiste au creu de votre poitrine, mais vous êtes nettement plus apaisé que plus tôt.|
+Peut-être que le sommeil reviendra.*
+
+27)*Rejouer l'histoire****[1]*
+
+13-*Le fil de la pelotte de laine dépassait de votre poche ! Votre petit chat, Moustache, a donc été attiré.|
+Il saute sur vos genoux et se blottit en ronronnant. Peut-être que vous ne dormirez pas si mal après tout.*
+
+28)*Rejouer l'histoire****[1]*
+
+14-*Pourquoi vous avez mis cette clé là ? Vous ne vous en souvenez pas.*
+
+29)*Vous retournez à vos occupations dans la cuisine.****[8]*
+
+15-*Ca vous fait drôlement mal. Cette soirée est vraiment maudite. Vous partez vous recoucher, l'angoisse ayant laissé|
+place à la colère. Vous vous faites une note mentale de brûler la table demain dès l'aube.*
+
+30)*Rejouer l'histoire****[1]*
+
+16-*Vous sortez dehors et vous asseyez au bord de la terrasse, observant le jour se lever.*
+
+31)*Rejouer l'histoire****[1]*
