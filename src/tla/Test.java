@@ -16,7 +16,7 @@ public class Test {
 	affiche la liste des tokens reconnus
 	 */
 	private static void testAnalyseLexicale(String entree) {
-		System.out.println("test de l'analyse lexicale sur l'entrée " + entree);
+		System.out.println("test de l'analyse lexicale sur l'entrÃ©e " + entree);
 		AnalyseLexicale al = new AnalyseLexicale();
 		List<Token> listToken = null;
 		try {

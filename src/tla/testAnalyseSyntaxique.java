@@ -11,15 +11,15 @@ public class testAnalyseSyntaxique {
 	public static void main(String[] args) {
 		testAnalyseSyntaxique("1-*Jardin*"
 				+ "1)*Prendre la fleur par terre.*Fleur*+1pv*(pv>5)||(random>5)*[1]*"
-				+ "2)*Le lutin maléfique apparaît.**-2pv*pv>5*[1]*");
+				+ "2)*Le lutin malÃ©fique apparaÃ®t.**-2pv*pv>5*[1]*");
 	}
 
 	/*
-	Effectue les analyses lexicales et syntaxiques de la chaîne entree.
+	Effectue les analyses lexicales et syntaxiques de la chaÃ®ne entree.
 	Affiche la liste de Lieu.
 	 */
 	private static void testAnalyseSyntaxique(String entree) {
-		System.out.println("test de l'analyse syntaxique sur l'entrée ");
+		System.out.println("test de l'analyse syntaxique sur l'entrÃ©e ");
 		System.out.println(entree);
 		System.out.println();
 		AnalyseLexicale al = new AnalyseLexicale();

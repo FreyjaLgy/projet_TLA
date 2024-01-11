@@ -10,7 +10,7 @@ public class testComplet {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		String cheminFichier = "C:\\Users\\Andr�a\\Dropbox\\"
+		String cheminFichier = "C:\\Users\\Andréa\\Dropbox\\"
 				+ "Module_2_Programmation_Web_theorie_informatique\\Theorie_langages_automates\\"
 				+ "Projet\\projet_TLA\\src\\tla\\scenario_prof.txt";
 		
@@ -24,13 +24,13 @@ public class testComplet {
 
 	}
 	
-	/*Effectue les analyses lexicales et syntaxiques sur la cha�ne entree.
+	/*Effectue les analyses lexicales et syntaxiques sur la chaîne entree.
 	Affiche les tokens.
 	Affiche la liste de Lieu.	
 	*/
 	
 	private static void testAnalyses(String entree) throws Exception {
-		System.out.println("test de l'analyse lexicale sur l'entrée " + entree);
+		System.out.println("test de l'analyse lexicale sur l'entrÃ©e " + entree);
 		System.out.println();
 		
 		AnalyseLexicale al = new AnalyseLexicale();

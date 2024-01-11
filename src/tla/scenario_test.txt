@@ -1,4 +1,4 @@
 0-*Blabla*
 1-*Jardin*
 1)*Prendre la fleur par terre.*Fleur*+1pv*pv>5*[1]*
-2)*Le lutin maléfique apparaît.**-2pv*pv>5*[1]
+2)*Le lutin malÃ©fique apparaÃ®t.**-2pv*pv>5*[1]

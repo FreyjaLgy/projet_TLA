@@ -8,9 +8,9 @@ import java.util.List;
 
 public class ConvertionFichierEnString {
 	
-	/**Méthode permettant de convertir un fichier en chaîne de caractères.
+	/**MÃ©thode permettant de convertir un fichier en chaÃ®ne de caractÃ¨res.
 	 * 
-	 * On crée une chaîne de caractères et tant que l'on n'est pas arrivé au bout du fichier, on ajoute chaque ligne à cette chaîne.
+	 * On crÃ©e une chaÃ®ne de caractÃ¨res et tant que l'on n'est pas arrivÃ© au bout du fichier, on ajoute chaque ligne Ã  cette chaÃ®ne.
 	 */
 	
 	public String obtenirLieuxPropositions(String cheminFichier) {
@@ -19,10 +19,10 @@ public class ConvertionFichierEnString {
 			FileReader fileReader = new FileReader(cheminFichier);
 			BufferedReader reader = new BufferedReader(fileReader);
 			
-			//Lecture de la première ligne.
+			//Lecture de la premiÃ¨re ligne.
 			String line = reader.readLine();
 			
-			//Tant que l'on n'est pas arrivé au bout du fichier, ...
+			//Tant que l'on n'est pas arrivÃ© au bout du fichier, ...
 			while (line != null) {
 				lieuxPropositions = lieuxPropositions + line;
 				
